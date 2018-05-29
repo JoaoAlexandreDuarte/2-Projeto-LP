@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Roguelike {
     class Program {
         static void Main(string[] args) {
+            // Utiliza o UTF-8 na consola
+            Console.OutputEncoding = Encoding.UTF8;
+            // Construtor vazio
+            Menu menu = new Menu();
+
+            menu.Options();
         }
     }
 }
