@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     class Menu {
-        string[,] developers = new string[,] {{ "Inês Gonçalves", "a21702076" }
-            , { "Inês Nunes", "a21702520"}, { "João Duarte", "a21702097"}};
+        readonly string[,] developers = new string[,] {
+            { "Inês Gonçalves", "a21702076" },
+            { "Inês Nunes", "a21702520"},
+            { "João Duarte", "a21702097"}};
 
         public void Options() {
             bool end = false, isError = false;
