@@ -22,5 +22,17 @@ namespace Roguelike {
                 }
             }
         }
+
+        public void Bye() {
+            Console.WriteLine("Thanks for playing! Until next time!");
+        }
+
+        public void ShowCredits(string[,] names) {
+            Console.WriteLine("This project was made by:\n");
+            for (int i = 0; i < names.GetLength(0); i++) {
+                Console.WriteLine("\u25cf " + names[i, 0] + "\n");
+                Console.WriteLine("\t\u25cb " + names[i, 1] + "\n\n");
+            }
+        }
     }
 }
