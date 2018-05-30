@@ -69,7 +69,6 @@ namespace Roguelike {
 
                 }
                 origCol += 3;
-                Console.WriteLine();
             }
         }
     }
