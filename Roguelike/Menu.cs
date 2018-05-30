@@ -33,6 +33,8 @@ namespace Roguelike {
                 switch (option) {
                     case 1:
                         // todo play game
+                        Console.Clear();
+                        game.Update();
                         break;
                     case 2:
                         // todo high scores

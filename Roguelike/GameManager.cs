@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     class GameManager {
+        public void Update() {
+            World world = new World();
+            Interface visualization = new Interface();
 
+
+            visualization.ShowWorld(world);
+            Console.ReadKey();
+        }
     }
 }
