@@ -4,17 +4,6 @@ using System.Collections.Generic;
 namespace Roguelike {
     class Interface {
 
-        protected static void WriteAt(string s, int x, int y) {
-            try {
-                Console.SetCursorPosition(x, y);
-                Console.Write(s);
-            }
-            catch (ArgumentOutOfRangeException e) {
-                Console.Clear();
-                Console.WriteLine(e.Message);
-            }
-        }
-
         public void ShowMenu() {
             Console.WriteLine("1. New Game\n2. High Scores\n3. Credits\n" +
                 "4. Quit");
@@ -59,7 +48,7 @@ namespace Roguelike {
                 origRow = 0;
                 for (int column = 0; column < world.Y; column++) {
                     WriteAt("~~~~~ ", origRow, origCol);
-                    WriteAt("~~~~~ ", origRow, origCol+1);
+                    WriteAt("~~~~~ ", origRow, origCol + 1);
                     origRow += 6;
                     //list = world.WorldArray[row, column].GetInfo<Object>();
 
@@ -69,6 +58,17 @@ namespace Roguelike {
 
                 }
                 origCol += 3;
+            }
+        }
+
+        private void WriteAt(string s, int x, int y) {
+            try {
+                Console.SetCursorPosition(x, y);
+                Console.Write(s);
+            }
+            catch (ArgumentOutOfRangeException e) {
+                Console.Clear();
+                Console.WriteLine(e.Message);
             }
         }
     }
