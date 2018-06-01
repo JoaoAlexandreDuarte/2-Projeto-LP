@@ -5,15 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    class Tile : List<Object>  {
+    class Tile : List<Object> {
 
         public Tile(int tileSize) : base(tileSize) {
 
         }
 
-        public IEnumerable<T> GetInfo<T>() {
-            foreach (T obj in this) {
-                yield return obj;
+        public IEnumerable<Object> GetInfo() {
+            foreach (Object obj in this) {
+                if (obj != null) {
+                    yield return obj;
+                } else {
+                    yield return 0;
+                }
+                
             }
         }
     }

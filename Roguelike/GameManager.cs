@@ -9,9 +9,11 @@ namespace Roguelike {
         public void Update() {
             World world = new World();
             Interface visualization = new Interface();
+            LevelGenerator levelGen = new LevelGenerator();
 
 
             visualization.ShowWorld(world);
+            visualization.ShowStats(world);
             Console.ReadKey();
         }
     }

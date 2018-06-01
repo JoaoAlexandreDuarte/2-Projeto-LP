@@ -39,26 +39,41 @@ namespace Roguelike {
 
         public void ShowWorld(World world) {
             //IEnumerable<Object> list;
-            int origCol, origRow;
+            int origRow, origCol = 2;
 
             Console.WriteLine("+++++++++++++++++++++++++++ LP1 Rogue : Level" +
                 " 009 +++++++++++++++++++++++++++");
-            origCol = 2;
             for (int row = 0; row < world.X; row++) {
                 origRow = 0;
                 for (int column = 0; column < world.Y; column++) {
                     WriteAt("~~~~~ ", origRow, origCol);
                     WriteAt("~~~~~ ", origRow, origCol + 1);
                     origRow += 6;
-                    //list = world.WorldArray[row, column].GetInfo<Object>();
 
-                    //for (int i = 0; i < world.TileSize/2; i++) {
+                    //list = world.WorldArray[row, column].GetInfo();
 
+                    //foreach (Object o in list) {
+                    //    Console.WriteLine(o);
                     //}
 
                 }
                 origCol += 3;
             }
+        }
+
+        public void ShowStats(World world) {
+            int writeRow, writeCol = 2;
+
+            writeRow = world.X * 6 + 2;
+
+            WriteAt("Player Stats", writeRow, writeCol++);
+            WriteAt("------------", writeRow, writeCol++);
+            WriteAt("HP", writeRow, writeCol);
+            WriteAt("- " + "34.4", 61, writeCol++);
+            WriteAt("Weapon", writeRow, writeCol);
+            WriteAt("- " + "Rusty Sword", 61, writeCol++);
+            WriteAt("Inventory", writeRow, writeCol);
+            WriteAt("- " + "91% full", 61, writeCol++);
         }
 
         private void WriteAt(string s, int x, int y) {
