@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     class Player {
-        public float HP { get; set; } = 100f;
-        public Object SelectedWeapon { get; set; } = null;
-        public Object Inventory { get; set; } = null;
-        public float MaxWeigth { get; set; } = 200;
+        public float HP { get; set; }
+        public Object SelectedWeapon { get; set; }
+        public Object Inventory { get; set; }
+        public float MaxWeigth { get; set; }
     }
 }

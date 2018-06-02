@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="GameManager.cs" />
     <Compile Include="Interface.cs" />
+    <Compile Include="LevelGenerator.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

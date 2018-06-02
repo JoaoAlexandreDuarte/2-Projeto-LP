@@ -38,7 +38,7 @@ namespace Roguelike {
         }
 
         public void ShowWorld(World world) {
-            //IEnumerable<Object> list;
+            IEnumerable<Object> list;
             int origRow, origCol = 2;
 
             Console.WriteLine("+++++++++++++++++++++++++++ LP1 Rogue : Level" +
@@ -50,11 +50,11 @@ namespace Roguelike {
                     WriteAt("~~~~~ ", origRow, origCol + 1);
                     origRow += 6;
 
-                    //list = world.WorldArray[row, column].GetInfo();
+                    list = world.WorldArray[row, column].GetInfo();
 
-                    //foreach (Object o in list) {
-                    //    Console.WriteLine(o);
-                    //}
+                    foreach (Object o in list) {
+                        Console.WriteLine(o);
+                    }
 
                 }
                 origCol += 3;

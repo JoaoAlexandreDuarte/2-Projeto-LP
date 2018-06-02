@@ -12,15 +12,8 @@ namespace Roguelike {
             LevelGenerator levelGen = new LevelGenerator();
             int oldLevel = 1, currentLevel = 1;
 
-            do {
-                if (oldLevel == currentLevel) {
-
-                }
-
-                visualization.ShowWorld(world);
-                visualization.ShowStats(world);
-
-            } while (currentLevel < 3);
+            visualization.ShowWorld(world);
+            visualization.ShowStats(world);
 
             Console.ReadKey();
         }

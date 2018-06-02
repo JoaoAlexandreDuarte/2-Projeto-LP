@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     class LevelGenerator {
+        public void GenerateLevel() {
 
+        }
     }
 }
