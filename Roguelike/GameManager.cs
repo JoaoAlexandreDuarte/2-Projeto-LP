@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    class GameManager {
+    public class GameManager {
         public void Update() {
             World world = new World();
             Interface visualization = new Interface();

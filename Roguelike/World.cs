@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    class World {
+    public class World {
         public int X { get; } = 8;
         public int Y { get; } = 8;
         public int TileSize { get; } = 10;

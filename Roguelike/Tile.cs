@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    class Tile : List<Object> {
+    public class Tile : List<Object> {
 
         public bool IsVisible { get; set; }
 
@@ -22,6 +22,10 @@ namespace Roguelike {
                 //}
                 yield return obj;
             }
+        }
+
+        public void Add() {
+
         }
     }
 }

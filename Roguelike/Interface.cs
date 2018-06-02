@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace Roguelike {
-    class Interface {
+    public class Interface {
 
         public void ShowMenu() {
             Console.WriteLine("1. New Game\n2. High Scores\n3. Credits\n" +
@@ -53,7 +53,7 @@ namespace Roguelike {
                     list = world.WorldArray[row, column].GetInfo();
 
                     foreach (Object o in list) {
-                        Console.WriteLine(o);
+                        Console.WriteLine(o.ToString());
                     }
 
                 }

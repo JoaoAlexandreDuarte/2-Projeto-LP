@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace Roguelike {
-    class Program {
+    public class Program {
         static void Main(string[] args) {
             // Utiliza o UTF-8 na consola
             Console.OutputEncoding = Encoding.UTF8;

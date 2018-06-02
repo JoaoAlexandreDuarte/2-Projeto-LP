@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    class LevelGenerator {
-        public void GenerateLevel() {
+    public class LevelGenerator {
+        private 
 
+        public void GenerateLevel() {
+            Player player = new Player();
         }
     }
 }

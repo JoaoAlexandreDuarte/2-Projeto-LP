@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    class Menu {
+    public class Menu {
         readonly string[,] developers = new string[,] {
             { "Inês Gonçalves", "a21702076" },
             { "Inês Nunes", "a21702520"},
