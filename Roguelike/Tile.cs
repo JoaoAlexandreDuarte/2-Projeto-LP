@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    class Tile : List<Object>  {
+    class Tile : List<Object> {
+
+        public bool IsVisible { get; set; }
 
         public Tile(int tileSize) : base(tileSize) {
-
+            IsVisible = false;
         }
 
-        public IEnumerable<T> GetInfo<T>() {
+        public IEnumerable<T> GetContent<T>() {
             foreach (T obj in this) {
                 yield return obj;
             }
