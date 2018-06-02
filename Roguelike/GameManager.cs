@@ -12,6 +12,8 @@ namespace Roguelike {
             LevelGenerator levelGen = new LevelGenerator();
             int oldLevel = 1, currentLevel = 1;
 
+            levelGen.GenerateLevel(world);
+
             visualization.ShowWorld(world);
             visualization.ShowStats(world);
 

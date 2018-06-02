@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Roguelike {
     public class Interface {
@@ -38,7 +39,7 @@ namespace Roguelike {
         }
 
         public void ShowWorld(World world) {
-            IEnumerable<Object> list;
+            List<Object> list;
             int origRow, origCol = 2;
 
             Console.WriteLine("+++++++++++++++++++++++++++ LP1 Rogue : Level" +
@@ -46,15 +47,23 @@ namespace Roguelike {
             for (int row = 0; row < world.X; row++) {
                 origRow = 0;
                 for (int column = 0; column < world.Y; column++) {
-                    WriteAt("~~~~~ ", origRow, origCol);
-                    WriteAt("~~~~~ ", origRow, origCol + 1);
-                    origRow += 6;
+                    list = world.WorldArray[row, column].GetInfo().ToList();
 
-                    list = world.WorldArray[row, column].GetInfo();
-
-                    foreach (Object o in list) {
-                        Console.WriteLine(o.ToString());
+                    for (int i = 0; i < list.Count/2; i++) {
+                        if (list[i] == null) {
+                            WriteAt("~", origRow+i, origCol);
+                        } else {
+                            WriteAt("P", origRow+i, origCol);
+                        }
                     }
+                    for (int i = 5; i < list.Count; i++) {
+                        if (list[i] == null) {
+                            WriteAt("~", origRow++, origCol + 1);
+                        } else {
+                            WriteAt("P", origRow++, origCol + 1);
+                        }
+                    }
+                    origRow += 1;
 
                 }
                 origCol += 3;

@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     public class LevelGenerator {
-        private 
+        Random rnd = new Random();
 
-        public void GenerateLevel() {
+        public void GenerateLevel(World world) {
             Player player = new Player();
+
+            int row = rnd.Next(world.X);
+
+            world.WorldArray[row, 0].Add(player);
         }
     }
 }
