@@ -22,8 +22,25 @@ namespace Roguelike {
             }
         }
 
-        public bool Add() {
+        public void SetVisible(bool isVisible) {
+            IsVisible = isVisible;
+        }
 
+        //public bool Add(Object obj) {
+        //    LastSpaceFilled();
+        //}
+
+        private int LastSpaceFilled() {
+            int space = -1;
+
+            for (int i = 0; i < this.Count; i++) {
+                if (this[i] != null) {
+                    space = i;
+                    break;
+                }
+            }
+
+            return space;
         }
     }
 }

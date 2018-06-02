@@ -47,23 +47,33 @@ namespace Roguelike {
             for (int row = 0; row < world.X; row++) {
                 origRow = 0;
                 for (int column = 0; column < world.Y; column++) {
-                    list = world.WorldArray[row, column].GetInfo().ToList();
+                    if (world.WorldArray[row, column].IsVisible) {
+                        list = world.WorldArray[row, column].GetInfo().ToList();
 
-                    for (int i = 0; i < list.Count/2; i++) {
-                        if (list[i] == null) {
-                            WriteAt("~", origRow+i, origCol);
-                        } else {
-                            WriteAt("P", origRow+i, origCol);
+                        for (int i = 0; i < list.Count / 2; i++) {
+                            if (!world.WorldArray[row, column].IsVisible) {
+                                WriteAt("~", origRow + i, origCol);
+                            } else if (list[i] == null) {
+                                WriteAt(".", origRow + i, origCol);
+                            } else {
+                                WriteAt("P", origRow + i, origCol);
+                            }
                         }
-                    }
-                    for (int i = 5; i < list.Count; i++) {
-                        if (list[i] == null) {
-                            WriteAt("~", origRow++, origCol + 1);
-                        } else {
-                            WriteAt("P", origRow++, origCol + 1);
+                        for (int i = 5; i < list.Count; i++) {
+                            if (!world.WorldArray[row, column].IsVisible) {
+                                WriteAt("~", origRow + i, origCol + 1);
+                            } else if (list[i] == null) {
+                                WriteAt(".", origRow++, origCol + 1);
+                            } else {
+                                WriteAt("P", origRow++, origCol + 1);
+                            }
                         }
+                        origRow += 1;
+                    } else {
+                        WriteAt("~~~~~ ", origRow, origCol);
+                        WriteAt("~~~~~ ", origRow, origCol + 1);
+                        origRow += 6;
                     }
-                    origRow += 1;
 
                 }
                 origCol += 3;
