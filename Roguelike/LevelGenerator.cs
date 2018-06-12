@@ -13,7 +13,7 @@ namespace Roguelike {
 
             int row = rnd.Next(world.X);
 
-            world.WorldArray[row, 0].Add(player);
+            world.WorldArray[row, 0].AddTo(player);
             world.WorldArray[row, 0].SetVisible(true);
         }
     }

@@ -51,18 +51,14 @@ namespace Roguelike {
                         list = world.WorldArray[row, column].GetInfo().ToList();
 
                         for (int i = 0; i < list.Count / 2; i++) {
-                            if (!world.WorldArray[row, column].IsVisible) {
-                                WriteAt("~", origRow + i, origCol);
-                            } else if (list[i] == null) {
+                            if (list[i] == null) {
                                 WriteAt(".", origRow + i, origCol);
                             } else {
                                 WriteAt("P", origRow + i, origCol);
                             }
                         }
                         for (int i = 5; i < list.Count; i++) {
-                            if (!world.WorldArray[row, column].IsVisible) {
-                                WriteAt("~", origRow + i, origCol + 1);
-                            } else if (list[i] == null) {
+                            if (list[i] == null) {
                                 WriteAt(".", origRow++, origCol + 1);
                             } else {
                                 WriteAt("P", origRow++, origCol + 1);

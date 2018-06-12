@@ -8,7 +8,7 @@ namespace Roguelike {
     public class Tile : List<Object> {
 
         public bool IsVisible { get; set; }
-        private int TileSize { get; set; }
+        private int TileSize { get; }
 
         public Tile(int tileSize) : base(new Object[tileSize]) {
             IsVisible = false;
@@ -26,15 +26,24 @@ namespace Roguelike {
             IsVisible = isVisible;
         }
 
-        //public bool Add(Object obj) {
-        //    LastSpaceFilled();
-        //}
+        public bool AddTo(Object obj) {
+            bool returnValue = false;
+            int spaceToAdd = LastSpaceFilled();
+
+            if (spaceToAdd >= 0) {
+                this.Insert(spaceToAdd, obj);
+                this.RemoveAt(this.Count - 1);
+                returnValue = true;
+            }
+
+            return returnValue;
+        }
 
         private int LastSpaceFilled() {
             int space = -1;
 
             for (int i = 0; i < this.Count; i++) {
-                if (this[i] != null) {
+                if (this[i] == null) {
                     space = i;
                     break;
                 }
