@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 namespace Roguelike {
     public class Program {
 
+        // https://www.c-sharpcorner.com/code/448/code-to-auto-maximize-console-application-according-to-screen-width-in-c-sharp.aspx
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
         private static readonly IntPtr ThisConsole = GetConsoleWindow();
