@@ -8,8 +8,7 @@ namespace Roguelike {
     public class LevelGenerator {
         Random rnd = new Random();
 
-        public void GenerateLevel(World world) {
-            Player player = new Player();
+        public void GenerateLevel(World world, Player player, int level) {
 
             int row = rnd.Next(world.X);
 

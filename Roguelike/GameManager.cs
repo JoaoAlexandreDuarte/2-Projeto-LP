@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Roguelike {
     public class GameManager {
@@ -10,12 +6,14 @@ namespace Roguelike {
             World world = new World();
             Interface visualization = new Interface();
             LevelGenerator levelGen = new LevelGenerator();
+            Player player = new Player();
             int oldLevel = 1, currentLevel = 1;
 
-            levelGen.GenerateLevel(world);
+            levelGen.GenerateLevel(world, player, currentLevel);
 
-            visualization.ShowWorld(world);
-            visualization.ShowStats(world);
+            visualization.ShowWorld(world, currentLevel);
+            visualization.ShowStats(world, player);
+            visualization.ShowLegend(world);
 
             Console.ReadKey();
         }

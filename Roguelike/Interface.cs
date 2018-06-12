@@ -4,6 +4,16 @@ using System.Linq;
 
 namespace Roguelike {
     public class Interface {
+        private readonly string player = "\u03A9";
+        private readonly string exit = "EXIT!";
+        private readonly string empty = ".";
+        private readonly string unexplored = "~";
+        private readonly string neutral = "\u03fd";
+        private readonly string hostile = "\u03ff";
+        private readonly string food = "\u03c9";
+        private readonly string weapon = "\u03ef";
+        private readonly string trap = "\u0394";
+        private readonly string map = "\u039e";
 
         public void ShowMenu() {
             Console.WriteLine("1. New Game\n2. High Scores\n3. Credits\n" +
@@ -38,30 +48,31 @@ namespace Roguelike {
             }
         }
 
-        public void ShowWorld(World world) {
-            List<Object> list;
+        public void ShowWorld(World world, int level) {
+            List<Object> lst;
             int origRow, origCol = 2;
 
-            Console.WriteLine("+++++++++++++++++++++++++++ LP1 Rogue : Level" +
-                " 009 +++++++++++++++++++++++++++");
+            Console.WriteLine("+++++++++++++++++++++++++++ LP1 Rogue : Level "
+                + String.Format("{0:000}", level) +
+                " +++++++++++++++++++++++++++");
             for (int row = 0; row < world.X; row++) {
                 origRow = 0;
                 for (int column = 0; column < world.Y; column++) {
                     if (world.WorldArray[row, column].IsVisible) {
-                        list = world.WorldArray[row, column].GetInfo().ToList();
+                        lst = world.WorldArray[row, column].GetInfo().ToList();
 
-                        for (int i = 0; i < list.Count / 2; i++) {
-                            if (list[i] == null) {
+                        for (int i = 0; i < lst.Count / 2; i++) {
+                            if (lst[i] == null) {
                                 WriteAt(".", origRow + i, origCol);
                             } else {
-                                WriteAt("P", origRow + i, origCol);
+                                WriteAt(player, origRow + i, origCol);
                             }
                         }
-                        for (int i = 5; i < list.Count; i++) {
-                            if (list[i] == null) {
+                        for (int i = 5; i < lst.Count; i++) {
+                            if (lst[i] == null) {
                                 WriteAt(".", origRow++, origCol + 1);
                             } else {
-                                WriteAt("P", origRow++, origCol + 1);
+                                WriteAt(player, origRow++, origCol + 1);
                             }
                         }
                         origRow += 1;
@@ -76,19 +87,48 @@ namespace Roguelike {
             }
         }
 
-        public void ShowStats(World world) {
+        public void ShowStats(World world, Player player) {
             int writeRow, writeCol = 2;
 
             writeRow = world.X * 6 + 2;
 
             WriteAt("Player Stats", writeRow, writeCol++);
             WriteAt("------------", writeRow, writeCol++);
-            WriteAt("HP", writeRow, writeCol);
-            WriteAt("- " + "34.4", 61, writeCol++);
-            WriteAt("Weapon", writeRow, writeCol);
-            WriteAt("- " + "Rusty Sword", 61, writeCol++);
-            WriteAt("Inventory", writeRow, writeCol);
-            WriteAt("- " + "91% full", 61, writeCol++);
+            WriteAt(String.Format("{0,-10}", "HP") + "- 34.4", writeRow,
+                writeCol++);
+            WriteAt(String.Format("{0,-10}", "Weapon") + "- Rusty Sword",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,-10}", "Inventory") + "- 91% full",
+                writeRow, writeCol);
+        }
+
+        public void ShowLegend(World world) {
+            int writeRow, writeCol = 11;
+
+            writeRow = world.X * 6 + 2;
+
+            WriteAt("Legend", writeRow, writeCol++);
+            WriteAt("------", writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", player) + " - Player",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", exit) + " - Exit",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", empty) + " - Empty",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", unexplored) + " - Unexplored",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", neutral) + " - Neutral NPC",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", hostile) + " - Hostile NPC",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", food) + " - Food",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", weapon) + " - Weapon",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", trap) + " - Trap",
+                writeRow, writeCol++);
+            WriteAt(String.Format("{0,5}", map) + " - Map",
+                writeRow, writeCol++);
         }
 
         private void WriteAt(string s, int x, int y) {
