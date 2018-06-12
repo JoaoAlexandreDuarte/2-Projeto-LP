@@ -9,11 +9,16 @@ namespace Roguelike {
         Random rnd = new Random();
 
         public void GenerateLevel(World world, Player player, int level) {
+            int row;
 
-            int row = rnd.Next(world.X);
+            row = rnd.Next(world.X);
 
             world.WorldArray[row, 0].AddTo(player);
             world.WorldArray[row, 0].SetVisible(true);
+
+            row = rnd.Next(world.X);
+            
+            world.WorldArray[row, 7].AddTo(0);
         }
     }
 }

@@ -11,9 +11,10 @@ namespace Roguelike {
 
             levelGen.GenerateLevel(world, player, currentLevel);
 
-            visualization.ShowWorld(world, currentLevel);
+            visualization.ShowWorld(world, player, currentLevel);
             visualization.ShowStats(world, player);
             visualization.ShowLegend(world);
+            visualization.ShowCurrentInfo(world);
 
             Console.ReadKey();
         }

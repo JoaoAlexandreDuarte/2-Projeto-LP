@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Roguelike {
     public class Interface {
-        private readonly string player = "\u03A9";
+        private readonly string playerIcon = "\u03A9";
         private readonly string exit = "EXIT!";
         private readonly string empty = ".";
         private readonly string unexplored = "~";
@@ -48,54 +48,63 @@ namespace Roguelike {
             }
         }
 
-        public void ShowWorld(World world, int level) {
+        public void ShowWorld(World world, Player player, int level) {
             List<Object> lst;
-            int origRow, origCol = 2;
+            int writeRow, writeCol = 2;
+            bool jump;
 
             Console.WriteLine("+++++++++++++++++++++++++++ LP1 Rogue : Level "
                 + String.Format("{0:000}", level) +
                 " +++++++++++++++++++++++++++");
             for (int row = 0; row < world.X; row++) {
-                origRow = 0;
+                writeRow = 0;
+                jump = false;
                 for (int column = 0; column < world.Y; column++) {
                     if (world.WorldArray[row, column].IsVisible) {
                         lst = world.WorldArray[row, column].GetInfo().ToList();
 
                         for (int i = 0; i < lst.Count / 2; i++) {
                             if (lst[i] == null) {
-                                WriteAt(".", origRow + i, origCol);
+                                WriteAt(empty, writeRow + i, writeCol);
+                            } else if (lst[i] == player) {
+                                WriteAt(playerIcon, writeRow + i, writeCol);
                             } else {
-                                WriteAt(player, origRow + i, origCol);
+                                WriteAt(exit, writeRow, writeCol);
+                                jump = true;
+                                break;
                             }
                         }
                         for (int i = 5; i < lst.Count; i++) {
-                            if (lst[i] == null) {
-                                WriteAt(".", origRow++, origCol + 1);
+                            if (jump) {
+                                WriteAt(exit, writeRow, writeCol + 1);
+                                break;
+                            } else if (lst[i] == null) {
+                                WriteAt(empty, writeRow++, writeCol + 1);
                             } else {
-                                WriteAt(player, origRow++, origCol + 1);
+                                WriteAt(playerIcon, writeRow++, writeCol + 1);
                             }
                         }
-                        origRow += 1;
+                        writeRow += 1;
                     } else {
-                        WriteAt("~~~~~ ", origRow, origCol);
-                        WriteAt("~~~~~ ", origRow, origCol + 1);
-                        origRow += 6;
+                        WriteAt("~~~~~ ", writeRow, writeCol);
+                        WriteAt("~~~~~ ", writeRow, writeCol + 1);
+                        writeRow += 6;
                     }
 
                 }
-                origCol += 3;
+                writeCol += 3;
             }
         }
 
         public void ShowStats(World world, Player player) {
             int writeRow, writeCol = 2;
 
-            writeRow = world.X * 6 + 2;
+            writeRow = world.Y * 6 + 2;
 
             WriteAt("Player Stats", writeRow, writeCol++);
             WriteAt("------------", writeRow, writeCol++);
-            WriteAt(String.Format("{0,-10}", "HP") + "- 34.4", writeRow,
-                writeCol++);
+            WriteAt(String.Format("{0,-10}", "HP") + "- " + 
+                String.Format("{0:0.0}", player.HP), writeRow, writeCol++);
             WriteAt(String.Format("{0,-10}", "Weapon") + "- Rusty Sword",
                 writeRow, writeCol++);
             WriteAt(String.Format("{0,-10}", "Inventory") + "- 91% full",
@@ -109,7 +118,7 @@ namespace Roguelike {
 
             WriteAt("Legend", writeRow, writeCol++);
             WriteAt("------", writeRow, writeCol++);
-            WriteAt(String.Format("{0,5}", player) + " - Player",
+            WriteAt(String.Format("{0,5}", playerIcon) + " - Player",
                 writeRow, writeCol++);
             WriteAt(String.Format("{0,5}", exit) + " - Exit",
                 writeRow, writeCol++);
@@ -129,6 +138,25 @@ namespace Roguelike {
                 writeRow, writeCol++);
             WriteAt(String.Format("{0,5}", map) + " - Map",
                 writeRow, writeCol++);
+        }
+
+        public void ShowCurrentInfo(World world) {
+            int writeRow = 0, writeCol;
+
+            writeCol = world.X * 3 + 2;
+
+            WriteAt("Messages", writeRow, writeCol++);
+            WriteAt("--------", writeRow, writeCol++);
+
+            writeCol++;
+
+            WriteAt("What do I see?", writeRow, writeCol++);
+            WriteAt("--------------", writeRow, writeCol++);
+
+            writeCol++;
+
+            WriteAt("Options", writeRow, writeCol++);
+            WriteAt("-------", writeRow, writeCol++);
         }
 
         private void WriteAt(string s, int x, int y) {
