@@ -28,9 +28,13 @@ namespace Roguelike {
             int spaceToAdd = LastSpaceFilled();
 
             if (spaceToAdd >= 0) {
-                this.Insert(spaceToAdd, obj);
-                this.RemoveAt(this.Count - 1);
-                returnValue = true;
+                if ((spaceToAdd == TileSize - 1) && !(obj is Player)) {
+
+                } else {
+                    this.Insert(spaceToAdd, obj);
+                    this.RemoveAt(this.Count - 1);
+                    returnValue = true;
+                }
             }
 
             return returnValue;

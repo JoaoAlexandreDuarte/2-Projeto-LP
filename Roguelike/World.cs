@@ -20,7 +20,10 @@ namespace Roguelike {
             }
         }
 
+        public bool MovePlayer(int[] playerPos) {
+            bool canMove = false;
 
-
+            return canMove;
+        }
     }
 }

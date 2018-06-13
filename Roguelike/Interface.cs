@@ -52,14 +52,18 @@ namespace Roguelike {
             List<Object> lst;
             int writeRow, writeCol = 2;
 
-            Console.WriteLine("+++++++++++++++++++++++++++ LP1 Rogue : Level "
+            Console.Clear();
+            Console.WriteLine("+++++++++++++++++++++++++++ LP1 RogueLite" +
+                " : Level "
                 + String.Format("{0:000}", level) +
                 " +++++++++++++++++++++++++++");
             for (int row = 0; row < world.X; row++) {
                 writeRow = 0;
                 for (int column = 0; column < world.Y; column++) {
+
+                    lst = world.WorldArray[row, column].GetInfo().ToList();
+
                     if (world.WorldArray[row, column].IsVisible) {
-                        lst = world.WorldArray[row, column].GetInfo().ToList();
 
                         for (int i = 0; i < lst.Count / 2; i++) {
                             if (world.WorldArray[row, column].IsExit) {
@@ -71,7 +75,7 @@ namespace Roguelike {
                                 WriteAt(playerIcon, writeRow + i, writeCol);
                             }
                         }
-                        for (int i = 5; i < lst.Count; i++) {
+                        for (int i = lst.Count / 2; i < lst.Count; i++) {
                             if (world.WorldArray[row, column].IsExit) {
                                 WriteAt(exit, writeRow, writeCol + 1);
                                 break;
@@ -83,9 +87,13 @@ namespace Roguelike {
                         }
                         writeRow += 1;
                     } else {
-                        WriteAt("~~~~~ ", writeRow, writeCol);
-                        WriteAt("~~~~~ ", writeRow, writeCol + 1);
-                        writeRow += 6;
+                        for (int i = 0; i < lst.Count / 2; i++) {
+                            WriteAt("~", writeRow + i, writeCol);
+                        }
+                        for (int i = lst.Count / 2; i < lst.Count; i++) {
+                            WriteAt("~", writeRow++, writeCol + 1);
+                        }
+                        writeRow += 1;
                     }
 
                 }
@@ -96,11 +104,11 @@ namespace Roguelike {
         public void ShowStats(World world, Player player) {
             int writeRow, writeCol = 2;
 
-            writeRow = world.Y * 6 + 2;
+            writeRow = (world.Y * ((world.TileSize/2) + 1)) + 2;
 
             WriteAt("Player Stats", writeRow, writeCol++);
             WriteAt("------------", writeRow, writeCol++);
-            WriteAt(String.Format("{0,-10}", "HP") + "- " + 
+            WriteAt(String.Format("{0,-10}", "HP") + "- " +
                 String.Format("{0:0.0}", player.HP), writeRow, writeCol++);
             WriteAt(String.Format("{0,-10}", "Weapon") + "- Rusty Sword",
                 writeRow, writeCol++);
@@ -111,7 +119,7 @@ namespace Roguelike {
         public void ShowLegend(World world) {
             int writeRow, writeCol = 11;
 
-            writeRow = world.X * 6 + 2;
+            writeRow = (world.X * ((world.TileSize / 2) + 1)) + 2;
 
             WriteAt("Legend", writeRow, writeCol++);
             WriteAt("------", writeRow, writeCol++);
@@ -140,7 +148,7 @@ namespace Roguelike {
         public void ShowCurrentInfo(World world) {
             int writeRow = 0, writeCol;
 
-            writeCol = world.X * 3 + 2;
+            writeCol = (world.X * 3) + 2;
 
             WriteAt("Messages", writeRow, writeCol++);
             WriteAt("--------", writeRow, writeCol++);
