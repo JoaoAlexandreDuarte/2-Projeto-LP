@@ -51,36 +51,33 @@ namespace Roguelike {
         public void ShowWorld(World world, Player player, int level) {
             List<Object> lst;
             int writeRow, writeCol = 2;
-            bool jump;
 
             Console.WriteLine("+++++++++++++++++++++++++++ LP1 Rogue : Level "
                 + String.Format("{0:000}", level) +
                 " +++++++++++++++++++++++++++");
             for (int row = 0; row < world.X; row++) {
                 writeRow = 0;
-                jump = false;
                 for (int column = 0; column < world.Y; column++) {
                     if (world.WorldArray[row, column].IsVisible) {
                         lst = world.WorldArray[row, column].GetInfo().ToList();
 
                         for (int i = 0; i < lst.Count / 2; i++) {
-                            if (lst[i] == null) {
-                                WriteAt(empty, writeRow + i, writeCol);
-                            } else if (lst[i] == player) {
-                                WriteAt(playerIcon, writeRow + i, writeCol);
-                            } else {
+                            if (world.WorldArray[row, column].IsExit) {
                                 WriteAt(exit, writeRow, writeCol);
-                                jump = true;
                                 break;
+                            } else if (lst[i] == null) {
+                                WriteAt(empty, writeRow + i, writeCol);
+                            } else if (lst[i] is Player) {
+                                WriteAt(playerIcon, writeRow + i, writeCol);
                             }
                         }
                         for (int i = 5; i < lst.Count; i++) {
-                            if (jump) {
+                            if (world.WorldArray[row, column].IsExit) {
                                 WriteAt(exit, writeRow, writeCol + 1);
                                 break;
                             } else if (lst[i] == null) {
                                 WriteAt(empty, writeRow++, writeCol + 1);
-                            } else {
+                            } else if (lst[i] is Player) {
                                 WriteAt(playerIcon, writeRow++, writeCol + 1);
                             }
                         }
@@ -157,6 +154,10 @@ namespace Roguelike {
 
             WriteAt("Options", writeRow, writeCol++);
             WriteAt("-------", writeRow, writeCol++);
+
+            writeCol++;
+
+            WriteAt("> ", writeRow, writeCol);
         }
 
         private void WriteAt(string s, int x, int y) {

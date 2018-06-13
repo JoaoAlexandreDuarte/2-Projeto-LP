@@ -8,17 +8,21 @@ namespace Roguelike {
     public class LevelGenerator {
         Random rnd = new Random();
 
-        public void GenerateLevel(World world, Player player, int level) {
-            int row;
+        public Tuple<int, int, int, int> GenerateLevel(World world,
+            Player player, int level) {
+            int rowPlayer, rowExit;
 
-            row = rnd.Next(world.X);
+            rowPlayer = rnd.Next(world.X);
 
-            world.WorldArray[row, 0].AddTo(player);
-            world.WorldArray[row, 0].SetVisible(true);
+            world.WorldArray[rowPlayer, 0].AddTo(player);
+            world.WorldArray[rowPlayer, 0].IsVisible = true;
 
-            row = rnd.Next(world.X);
-            
-            world.WorldArray[row, 7].AddTo(0);
+            rowExit = rnd.Next(world.X);
+
+            world.WorldArray[rowExit, 7].AddTo(0);
+            world.WorldArray[rowExit, 7].IsExit = true;
+
+            return new Tuple<int, int, int, int>(rowPlayer, 0, rowExit, 7);
         }
     }
 }

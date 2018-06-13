@@ -8,6 +8,7 @@ namespace Roguelike {
     public class Tile : List<Object> {
 
         public bool IsVisible { get; set; }
+        public bool IsExit { get; set; }
         private int TileSize { get; }
 
         public Tile(int tileSize) : base(new Object[tileSize]) {
@@ -20,10 +21,6 @@ namespace Roguelike {
             foreach (Object obj in this) {
                 yield return obj;
             }
-        }
-
-        public void SetVisible(bool isVisible) {
-            IsVisible = isVisible;
         }
 
         public bool AddTo(Object obj) {
