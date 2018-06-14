@@ -12,7 +12,7 @@ namespace Roguelike {
         private int TileSize { get; }
 
         public Tile(int tileSize) : base(new Object[tileSize]) {
-            IsVisible = true;
+            IsVisible = false;
             TileSize = tileSize;
         }
 
