@@ -29,6 +29,8 @@ namespace Roguelike {
 
             if (IsExit) {
                 spaceToAdd = 1;
+            } else if (obj is Player) {
+                spaceToAdd = 0;
             } else {
                 spaceToAdd = LastSpaceFilled();
             }

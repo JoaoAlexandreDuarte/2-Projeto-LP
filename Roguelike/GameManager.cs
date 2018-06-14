@@ -3,29 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 
 // https://gist.github.com/phxvyper/ca78a715486c0f5077bb29e6bab279d1
-// //interface IEntity {
-//    Vector2i Position { get; }
-
-//    void Update();
-//}
 
 namespace Roguelike {
     public class GameManager {
+        public World world;
+        public Interface visualization;
+        public LevelGenerator levelGen;
+        public Player player;
+        public List<string> messages;
         public Command CommandFlag { get; private set; }
         public readonly Dictionary<ConsoleKey, Command> keyBinds =
             new Dictionary<ConsoleKey, Command>();
 
         public void Update() {
-            World world = new World();
-            Interface visualization = new Interface();
-            LevelGenerator levelGen = new LevelGenerator();
-            Player player = new Player();
+            world = new World();
+            visualization = new Interface();
+            levelGen = new LevelGenerator();
+            player = new Player();
+            messages = new List<string>();
             Tuple<int, int> playerPos;
             Tuple<int, int> exitPos;
+            List<Object> currentTile;
+            List<IItem> tileItems;
             int level = 1;
             bool quit = false;
             bool action;
             ConsoleKeyInfo option;
+            short itemNum;
 
             if (keyBinds.Count == 0) {
                 AddKeys();
@@ -41,11 +45,24 @@ namespace Roguelike {
                     // Clear our command flags to update next
                     CommandFlag = Command.None;
                     action = false;
+                    tileItems = new List<IItem>();
+
+                    currentTile = world.WorldArray[player.X, player.Y].
+                        GetInfo().ToList();
+
+                    foreach (IItem obj in currentTile.OfType<IItem>()) {
+                        tileItems.Add(obj);
+                    }
 
                     visualization.ShowWorld(world, player, level);
                     visualization.ShowStats(world, player);
                     visualization.ShowLegend(world);
-                    visualization.ShowCurrentInfo(world);
+                    visualization.ShowMessages(world);
+                    visualization.ShowSurrounds
+                        (world.GetSurroundingInfo(player));
+                    visualization.ShowOptions();
+
+                    messages.Clear();
 
                     // Update our input for everything else to use
                     option = Console.ReadKey();
@@ -88,6 +105,20 @@ namespace Roguelike {
                             case Command.AttackNPC:
                                 break;
                             case Command.PickUpItem:
+                                if (tileItems.Count > 0) {
+                                    do {
+                                        visualization.ShowItems(tileItems,
+                                        "Pick Up");
+                                        short.TryParse(Console.ReadLine(),
+                                           out itemNum);
+                                    } while ((itemNum < 0) ||
+                                    (itemNum > tileItems.Count));
+
+                                    if (itemNum != tileItems.Count) {
+                                        tileItems[itemNum].OnPickUp(this);
+                                        action = true;
+                                    }
+                                }
                                 break;
                             case Command.UseItem:
                                 break;
@@ -103,7 +134,7 @@ namespace Roguelike {
                     } else {
 
                         string[] keys =
-                            keyBinds.Select(c => c.ToString()).ToArray();
+                            keyBinds.Select(k => k.ToString()).ToArray();
 
                         Console.WriteLine();
                         visualization.WrongOption(option.Key.ToString(), keys);

@@ -72,21 +72,23 @@ namespace Roguelike {
                         for (int i = 0; i < lst.Count / 2; i++) {
                             if (world.WorldArray[row, column].IsExit) {
                                 WriteAt(exit, writeRow, writeCol);
-                                break;
                             } else if (lst[i] == null) {
                                 WriteAt(empty, writeRow + i, writeCol);
                             } else if (lst[i] is Player) {
                                 WriteAt(playerIcon, writeRow + i, writeCol);
+                            } else if (lst[i] is Map) {
+                                WriteAt(map, writeRow + i, writeCol);
                             }
                         }
                         for (int i = lst.Count / 2; i < lst.Count; i++) {
                             if (world.WorldArray[row, column].IsExit) {
                                 WriteAt(exit, writeRow, writeCol + 1);
-                                break;
                             } else if (lst[i] == null) {
                                 WriteAt(empty, writeRow++, writeCol + 1);
                             } else if (lst[i] is Player) {
                                 WriteAt(playerIcon, writeRow++, writeCol + 1);
+                            } else if (lst[i] is Map) {
+                                WriteAt(map, writeRow + i, writeCol);
                             }
                         }
                         writeRow += 1;
@@ -108,7 +110,7 @@ namespace Roguelike {
         public void ShowStats(World world, Player player) {
             int writeRow, writeCol = 2;
 
-            writeRow = (world.Y * ((world.TileSize/2) + 1)) + 2;
+            writeRow = (world.Y * ((world.TileSize / 2) + 1)) + 2;
 
             WriteAt("Player Stats", writeRow, writeCol++);
             WriteAt("------------", writeRow, writeCol++);
@@ -157,7 +159,7 @@ namespace Roguelike {
                 writeRow, writeCol++);
         }
 
-        public void ShowCurrentInfo(World world) {
+        public void ShowMessages(World world) {
             int writeRow = 0, writeCol;
 
             writeCol = (world.X * 3) + 2;
@@ -165,19 +167,75 @@ namespace Roguelike {
             WriteAt("Messages", writeRow, writeCol++);
             WriteAt("--------", writeRow, writeCol++);
 
-            writeCol++;
+            Console.SetCursorPosition(writeRow, writeCol += 2);
+        }
 
-            WriteAt("What do I see?", writeRow, writeCol++);
-            WriteAt("--------------", writeRow, writeCol++);
+        public void ShowSurrounds(Tuple<List<Object>,
+            List<Object>, List<Object>, List<Object>, List<Object>> surr) {
+            Console.WriteLine("What do I see?");
+            Console.WriteLine("--------------");
+            Console.WriteLine("* NORTH : " +
+                TransformSurroundingInfo(surr.Item1));
+            Console.WriteLine("* SOUTH : " +
+                TransformSurroundingInfo(surr.Item2));
+            Console.WriteLine("* WEST  : " + 
+                TransformSurroundingInfo(surr.Item3));
+            Console.WriteLine("* EAST  : " + 
+                TransformSurroundingInfo(surr.Item4));
+            Console.WriteLine("* HERE  : " +
+                TransformSurroundingInfo(surr.Item5));
+        }
 
-            writeCol++;
+        public void ShowOptions() {
 
-            WriteAt("Options", writeRow, writeCol++);
-            WriteAt("-------", writeRow, writeCol++);
+            Console.WriteLine("\n\nOptions");
+            Console.WriteLine("-------");
+            Console.WriteLine("(W) Move NORTH  (A) Move WEST    (S) Move SOUTH (D) Move EAST");
+            Console.WriteLine("(F) Attack NPC  (E) Pick up item (U) Use item   (V) Drop item");
+            Console.WriteLine("(I) Information (Q) Quit game");
 
-            writeCol++;
+            Console.Write("\n> ");
 
-            WriteAt("> ", writeRow, writeCol);
+        }
+
+        public void ShowItems(List<IItem> lst, string option) {
+
+            Console.Clear();
+            Console.WriteLine("Select item to " + option);
+            Console.Write("---------------");
+            for (int i = 0; i < option.Length; i++) {
+                Console.Write("-");
+            }
+            Console.WriteLine("\n");
+            for (int i = 0; i < lst.Count; i++) {
+                Console.WriteLine("" + i + ". " +lst[i].ToString());
+            }
+            Console.WriteLine("" + lst.Count + ". Go Back");
+        }
+
+        private string TransformSurroundingInfo(List<Object> lst) {
+            string returnString = "";
+
+            if (lst == null) {
+                returnString = "Wall";
+            } else if (lst[0] != null) {
+                foreach (Object obj in lst) {
+                    if ((obj != null) && !(obj is Player)) {
+                        if (obj.ToString() == "0") {
+                            returnString = "Exit";
+                        } else {
+                            returnString += obj.ToString();
+                        }
+                    }
+                }
+                if (returnString == "") {
+                    returnString = "Empty";
+                }
+            } else {
+                returnString = "Empty";
+            }
+
+            return returnString;
         }
 
         private void WriteAt(string s, int x, int y) {

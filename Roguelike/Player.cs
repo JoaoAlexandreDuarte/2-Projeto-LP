@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     public class Player {
-        private const float maxHP = 100;
+        private readonly float maxHP = 100;
         public float MaxWeight { get; } = 100;
         public float HP { get; set; }
         public Object SelectedWeapon { get; set; }
@@ -67,6 +67,10 @@ namespace Roguelike {
             }
 
             return canMove;
+        }
+
+        public override string ToString() {
+            return "Player";
         }
     }
 }
