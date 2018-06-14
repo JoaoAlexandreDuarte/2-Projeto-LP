@@ -112,8 +112,16 @@ namespace Roguelike {
 
             WriteAt("Player Stats", writeRow, writeCol++);
             WriteAt("------------", writeRow, writeCol++);
+            if (player.HP >= 50) {
+                Console.ForegroundColor = ConsoleColor.Green;
+            } else if (player.HP > 20) {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            } else {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
             WriteAt(String.Format("{0,-10}", "HP") + "- " +
                 String.Format("{0:0.0}", player.HP), writeRow, writeCol++);
+            Console.ResetColor();
             WriteAt(String.Format("{0,-10}", "Weapon") + "- Rusty Sword",
                 writeRow, writeCol++);
             WriteAt(String.Format("{0,-10}", "Inventory") + "- 91% full",
