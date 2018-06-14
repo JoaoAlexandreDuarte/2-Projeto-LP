@@ -25,7 +25,13 @@ namespace Roguelike {
 
         public bool AddTo(Object obj) {
             bool returnValue = false;
-            int spaceToAdd = LastSpaceFilled();
+            int spaceToAdd;
+
+            if (IsExit) {
+                spaceToAdd = 1;
+            } else {
+                spaceToAdd = LastSpaceFilled();
+            }
 
             if (spaceToAdd >= 0) {
                 if ((spaceToAdd == TileSize - 1) && !(obj is Player)) {
@@ -38,6 +44,12 @@ namespace Roguelike {
             }
 
             return returnValue;
+        }
+
+        public void FillEmpty() {
+            if (this.Count < TileSize) {
+                this.Add(null);
+            }
         }
 
         private int LastSpaceFilled() {
