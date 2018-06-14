@@ -15,7 +15,7 @@ namespace Roguelike {
         static void Main(string[] args) {
             // Utiliza o UTF-8 na consola
             Console.OutputEncoding = Encoding.UTF8;
-            Console.SetWindowSize(Console.LargestWindowWidth, 
+            Console.SetWindowSize(Console.LargestWindowWidth,
                 Console.LargestWindowHeight);
             ShowWindow(ThisConsole, 3);
             // Construtor vazio
