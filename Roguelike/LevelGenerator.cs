@@ -24,6 +24,8 @@ namespace Roguelike {
             player.X = rowPlayer;
             player.Y = 0;
 
+            world.UpdateExploredPlaces(player);
+
             rowExit = rnd.Next(world.X);
 
             world.WorldArray[rowExit, 7].AddTo(0);
