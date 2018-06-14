@@ -20,6 +20,10 @@ namespace Roguelike {
                 "4. Quit");
         }
 
+        public void ClearScreen() {
+            Console.Clear();
+        }
+
         public void AskOption() {
             Console.WriteLine("What do you want to do?");
         }
@@ -37,7 +41,7 @@ namespace Roguelike {
         }
 
         public void Bye() {
-            Console.WriteLine("Thanks for playing! Until next time!");
+            Console.WriteLine("\nThanks for playing! Until next time!");
         }
 
         public void ShowCredits(string[,] names) {
