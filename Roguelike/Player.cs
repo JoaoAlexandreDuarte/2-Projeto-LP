@@ -12,6 +12,8 @@ namespace Roguelike {
         public Object SelectedWeapon { get; set; }
         public Object Inventory { get; set; }
         public float Weight { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public Player() {
             HP = maxHP;
@@ -21,6 +23,50 @@ namespace Roguelike {
             HP -= damage;
 
             return HP;
+        }
+
+        public bool MoveNorth() {
+            bool canMove = false;
+
+            if ((X - 1) >= 0 ) {
+                X -= 1;
+                canMove = true;
+            }
+
+            return canMove;
+        }
+
+        public bool MoveSouth(int worldX) {
+            bool canMove = false;
+
+            if ((X + 1) < worldX ) {
+                X += 1;
+                canMove = true;
+            }
+
+            return canMove;
+        }
+
+        public bool MoveWest() {
+            bool canMove = false;
+
+            if ((Y - 1) >= 0) {
+                Y -= 1;
+                canMove = true;
+            }
+
+            return canMove;
+        }
+
+        public bool MoveEast(int worldY) {
+            bool canMove = false;
+
+            if ((Y + 1) < worldY) {
+                Y += 1;
+                canMove = true;
+            }
+
+            return canMove;
         }
     }
 }
