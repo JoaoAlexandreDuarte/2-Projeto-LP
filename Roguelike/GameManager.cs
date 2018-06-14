@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 // https://gist.github.com/phxvyper/ca78a715486c0f5077bb29e6bab279d1
-//https://hastebin.com/relebaboja.cs
 // //interface IEntity {
 //    Vector2i Position { get; }
 
@@ -25,19 +24,11 @@ namespace Roguelike {
             Tuple<int, int> exitPos;
             int level = 1;
             bool quit = false;
+            bool action;
             ConsoleKeyInfo option;
 
             if (keyBinds.Count == 0) {
-                keyBinds.Add(ConsoleKey.Q, Command.Quit);
-                keyBinds.Add(ConsoleKey.W, Command.MoveNorth);
-                keyBinds.Add(ConsoleKey.S, Command.MoveSouth);
-                keyBinds.Add(ConsoleKey.A, Command.MoveWest);
-                keyBinds.Add(ConsoleKey.D, Command.MoveEast);
-                keyBinds.Add(ConsoleKey.F, Command.AttackNPC);
-                keyBinds.Add(ConsoleKey.E, Command.PickUpItem);
-                keyBinds.Add(ConsoleKey.U, Command.UseItem);
-                keyBinds.Add(ConsoleKey.V, Command.DropItem);
-                keyBinds.Add(ConsoleKey.I, Command.Information);
+                AddKeys();
             }
 
             do {
@@ -49,6 +40,7 @@ namespace Roguelike {
 
                     // Clear our command flags to update next
                     CommandFlag = Command.None;
+                    action = false;
 
                     visualization.ShowWorld(world, player, level);
                     visualization.ShowStats(world, player);
@@ -69,24 +61,28 @@ namespace Roguelike {
                                 if (player.MoveNorth()) {
                                     playerPos =
                                         world.UpdatePlayer(playerPos, player);
+                                    action = true;
                                 }
                                 break;
                             case Command.MoveSouth:
                                 if (player.MoveSouth(world.X)) {
                                     playerPos =
                                         world.UpdatePlayer(playerPos, player);
+                                    action = true;
                                 }
                                 break;
                             case Command.MoveWest:
                                 if (player.MoveWest()) {
                                     playerPos =
                                         world.UpdatePlayer(playerPos, player);
+                                    action = true;
                                 }
                                 break;
                             case Command.MoveEast:
                                 if (player.MoveEast(world.Y)) {
                                     playerPos =
                                         world.UpdatePlayer(playerPos, player);
+                                    action = true;
                                 }
                                 break;
                             case Command.AttackNPC:
@@ -101,7 +97,9 @@ namespace Roguelike {
                                 break;
                         }
 
-                        player.LoseHP(1);
+                        if (action) {
+                            player.LoseHP(1);
+                        }
                     } else {
 
                         string[] keys =
@@ -109,6 +107,7 @@ namespace Roguelike {
 
                         Console.WriteLine();
                         visualization.WrongOption(option.Key.ToString(), keys);
+                        Console.ReadKey();
                     }
                 } while ((!playerPos.Equals(exitPos)) && (!quit)
                 && (player.HP > 0));
@@ -131,6 +130,19 @@ namespace Roguelike {
 
 
             Console.ReadKey();
+        }
+
+        private void AddKeys() {
+            keyBinds.Add(ConsoleKey.Q, Command.Quit);
+            keyBinds.Add(ConsoleKey.W, Command.MoveNorth);
+            keyBinds.Add(ConsoleKey.S, Command.MoveSouth);
+            keyBinds.Add(ConsoleKey.A, Command.MoveWest);
+            keyBinds.Add(ConsoleKey.D, Command.MoveEast);
+            keyBinds.Add(ConsoleKey.F, Command.AttackNPC);
+            keyBinds.Add(ConsoleKey.E, Command.PickUpItem);
+            keyBinds.Add(ConsoleKey.U, Command.UseItem);
+            keyBinds.Add(ConsoleKey.V, Command.DropItem);
+            keyBinds.Add(ConsoleKey.I, Command.Information);
         }
     }
 }
