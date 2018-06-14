@@ -20,7 +20,7 @@ namespace Roguelike {
             }
         }
 
-        public Tuple<int, int> UpdatePlayer(Tuple<int, int> playerPos, 
+        public Tuple<int, int> UpdatePlayer(Tuple<int, int> playerPos,
             Player player) {
 
 
@@ -28,7 +28,30 @@ namespace Roguelike {
             WorldArray[player.X, player.Y].AddTo(player);
             WorldArray[playerPos.Item1, playerPos.Item2].FillEmpty();
 
+            UpdateExploredPlaces(player);
+
             return new Tuple<int, int>(player.X, player.Y);
+        }
+
+        public void UpdateExploredPlaces(Player player) {
+            // If the player isn't next to a wall in the North it sets the
+            // Tile visible
+            if (player.X - 1 >= 0) {
+                WorldArray[player.X - 1, player.Y].IsVisible = true;
+            }
+            // If the player isn't next to a wall in the South it sets the
+            // Tile visible
+            if (player.X + 1 < this.X) {
+                WorldArray[player.X + 1, player.Y].IsVisible = true;
+            }// If the player isn't next to a wall in the North it sets the
+            // Tile visible
+            if (player.Y - 1 >= 0) {
+                WorldArray[player.X, player.Y - 1].IsVisible = true;
+            }// If the player isn't next to a wall in the North it sets the
+            // Tile visible
+            if (player.Y + 1 < this.Y) {
+                WorldArray[player.X, player.Y + 1].IsVisible = true;
+            }
         }
     }
 }
