@@ -20,10 +20,15 @@ namespace Roguelike {
             }
         }
 
-        public bool MovePlayer(int[] playerPos) {
-            bool canMove = false;
+        public Tuple<int, int> UpdatePlayer(Tuple<int, int> playerPos, 
+            Player player) {
 
-            return canMove;
+
+            WorldArray[playerPos.Item1, playerPos.Item2].Remove(player);
+            WorldArray[player.X, player.Y].AddTo(player);
+            WorldArray[playerPos.Item1, playerPos.Item2].FillEmpty();
+
+            return new Tuple<int, int>(player.X, player.Y);
         }
     }
 }
