@@ -19,7 +19,7 @@ namespace Roguelike {
 
             do {
                 if (!isError) {
-                    Console.Clear();
+                    visualization.ClearScreen();
                 } else {
                     Console.WriteLine();
                 }
@@ -39,7 +39,7 @@ namespace Roguelike {
                         // todo high scores
                         break;
                     case 3:
-                        Console.Clear();
+                        visualization.ClearScreen();
                         visualization.ShowCredits(developers);
                         Console.ReadKey();
                         break;
@@ -47,7 +47,7 @@ namespace Roguelike {
                         end = true;
                         break;
                     default:
-                        Console.Clear();
+                        visualization.ClearScreen();
                         isError = true;
                         visualization.WrongOption(option.ToString(),
                             new string[] { "1", "2", "3", "4" });
@@ -55,8 +55,7 @@ namespace Roguelike {
                 }
 
             } while (end == false);
-
-            Console.WriteLine();
+            
             visualization.Bye();
             return;
         }
