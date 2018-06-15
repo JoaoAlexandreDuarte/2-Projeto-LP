@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    public class Player {
+    public class Player : IHasHP {
         private readonly float maxHP = 100;
         public float MaxWeight { get; } = 100;
-        public float HP { get; set; }
+        public double HP { get; set; }
         public Object SelectedWeapon { get; set; }
         public Object Inventory { get; set; }
         public float Weight { get; set; }
@@ -19,7 +19,7 @@ namespace Roguelike {
             HP = maxHP;
         }
 
-        public float LoseHP(float damage) {
+        public double LoseHP(double damage) {
             HP -= damage;
 
             return HP;

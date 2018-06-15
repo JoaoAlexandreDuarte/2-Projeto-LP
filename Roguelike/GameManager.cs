@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-// https://gist.github.com/phxvyper/ca78a715486c0f5077bb29e6bab279d1
-
 namespace Roguelike {
     public class GameManager {
         public World world;
         public Interface visualization;
         public LevelGenerator levelGen;
         public Player player;
+        public FileParser parser;
         public List<string> messages;
         public Command CommandFlag { get; private set; }
         public readonly Dictionary<ConsoleKey, Command> keyBinds =
@@ -20,10 +19,12 @@ namespace Roguelike {
             visualization = new Interface();
             levelGen = new LevelGenerator();
             player = new Player();
+            parser = new FileParser();
             messages = new List<string>();
             Tuple<int, int> playerPos;
             Tuple<int, int> exitPos;
             List<Object> currentTile;
+            List<IDealsDamage> tileDmg;
             List<IItem> tileItems;
             int level = 1;
             bool quit = false;
@@ -31,13 +32,15 @@ namespace Roguelike {
             ConsoleKeyInfo option;
             short itemNum;
 
+            parser.ReadFromFiles();
+
             if (keyBinds.Count == 0) {
                 AddKeys();
             }
 
             do {
 
-                exitPos = levelGen.GenerateLevel(world, player, level);
+                exitPos = levelGen.GenerateLevel(world, player, level, parser);
                 playerPos = new Tuple<int, int>(player.X, player.Y);
 
                 do {
@@ -46,12 +49,22 @@ namespace Roguelike {
                     CommandFlag = Command.None;
                     action = false;
                     tileItems = new List<IItem>();
+                    tileDmg = new List<IDealsDamage>();
 
                     currentTile = world.WorldArray[player.X, player.Y].
                         GetInfo().ToList();
 
                     foreach (IItem obj in currentTile.OfType<IItem>()) {
                         tileItems.Add(obj);
+                    }
+
+                    foreach (IDealsDamage obj in
+                        currentTile.OfType<IDealsDamage>()) {
+                        tileDmg.Add(obj);
+                    }
+
+                    foreach (IDealsDamage obj in tileDmg) {
+                        obj.OnDetectingPlayer(player);
                     }
 
                     visualization.ShowWorld(world, player, level);
@@ -72,7 +85,15 @@ namespace Roguelike {
 
                         switch (CommandFlag) {
                             case Command.Quit:
-                                quit = true;
+                                string wantsQuit;
+                                do {
+                                    visualization.AskQuit();
+                                    wantsQuit = Console.ReadLine();
+                                } while ((wantsQuit.ToUpper() != "Y") &&
+                                (wantsQuit.ToUpper() != "N"));
+                                if (wantsQuit.ToUpper() == "Y") {
+                                    quit = true;
+                                }
                                 break;
                             case Command.MoveNorth:
                                 if (player.MoveNorth()) {
@@ -125,6 +146,8 @@ namespace Roguelike {
                             case Command.DropItem:
                                 break;
                             case Command.Information:
+                                visualization.ShowInformation(parser);
+                                Console.ReadKey();
                                 break;
                         }
 

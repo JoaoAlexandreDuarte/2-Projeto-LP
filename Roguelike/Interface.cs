@@ -44,6 +44,12 @@ namespace Roguelike {
             Console.WriteLine("\nThanks for playing! Until next time!");
         }
 
+        public void AskQuit() {
+            Console.Clear();
+            Console.WriteLine("\nDo you really want to quit? (Y/N)");
+            Console.Write("\n> ");
+        }
+
         public void ShowCredits(string[,] names) {
             Console.WriteLine("This project was made by:\n");
             for (int i = 0; i < names.GetLength(0); i++) {
@@ -71,28 +77,53 @@ namespace Roguelike {
 
                         for (int i = 0; i < lst.Count / 2; i++) {
                             if (world.WorldArray[row, column].IsExit) {
+                                Console.ForegroundColor = ConsoleColor.White;
                                 WriteAt(exit, writeRow, writeCol);
+                                Console.ResetColor();
                             } else if (lst[i] == null) {
                                 WriteAt(empty, writeRow + i, writeCol);
                             } else if (lst[i] is Player) {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
                                 WriteAt(playerIcon, writeRow + i, writeCol);
+                                Console.ResetColor();
                             } else if (lst[i] is Map) {
                                 WriteAt(map, writeRow + i, writeCol);
+                            } else if (lst[i] is Trap) {
+                                if (!(lst[i] as Trap).FallenInto) {
+                                    Console.ForegroundColor =
+                                        ConsoleColor.DarkRed;
+                                } else {
+                                    Console.ForegroundColor =
+                                        ConsoleColor.DarkCyan;
+                                }
+                                WriteAt(trap, writeRow + i, writeCol);
+                                Console.ResetColor();
                             }
                         }
                         for (int i = lst.Count / 2; i < lst.Count; i++) {
                             if (world.WorldArray[row, column].IsExit) {
+                                Console.ForegroundColor = ConsoleColor.White;
                                 WriteAt(exit, writeRow, writeCol + 1);
+                                Console.ResetColor();
                             } else if (lst[i] == null) {
                                 WriteAt(empty, writeRow++, writeCol + 1);
-                            } else if (lst[i] is Player) {
-                                WriteAt(playerIcon, writeRow++, writeCol + 1);
                             } else if (lst[i] is Map) {
-                                WriteAt(map, writeRow + i, writeCol);
+                                WriteAt(map, writeRow++, writeCol + 1);
+                            } else if (lst[i] is Trap) {
+                                if (!(lst[i] as Trap).FallenInto) {
+                                    Console.ForegroundColor =
+                                        ConsoleColor.DarkRed;
+                                } else {
+                                    Console.ForegroundColor =
+                                        ConsoleColor.DarkCyan;
+                                }
+                                WriteAt(trap, writeRow++, writeCol + 1);
+                                Console.ResetColor();
                             }
                         }
                         writeRow += 1;
                     } else {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
                         for (int i = 0; i < lst.Count / 2; i++) {
                             WriteAt("~", writeRow + i, writeCol);
                         }
@@ -100,6 +131,7 @@ namespace Roguelike {
                             WriteAt("~", writeRow++, writeCol + 1);
                         }
                         writeRow += 1;
+                        Console.ResetColor();
                     }
 
                 }
@@ -137,14 +169,19 @@ namespace Roguelike {
 
             WriteAt("Legend", writeRow, writeCol++);
             WriteAt("------", writeRow, writeCol++);
+            Console.ForegroundColor = ConsoleColor.Yellow;
             WriteAt(String.Format("{0,5}", playerIcon) + " - Player",
                 writeRow, writeCol++);
+            Console.ForegroundColor = ConsoleColor.White;
             WriteAt(String.Format("{0,5}", exit) + " - Exit",
                 writeRow, writeCol++);
+            Console.ResetColor();
             WriteAt(String.Format("{0,5}", empty) + " - Empty",
                 writeRow, writeCol++);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             WriteAt(String.Format("{0,5}", unexplored) + " - Unexplored",
                 writeRow, writeCol++);
+            Console.ResetColor();
             WriteAt(String.Format("{0,5}", neutral) + " - Neutral NPC",
                 writeRow, writeCol++);
             WriteAt(String.Format("{0,5}", hostile) + " - Hostile NPC",
@@ -153,8 +190,14 @@ namespace Roguelike {
                 writeRow, writeCol++);
             WriteAt(String.Format("{0,5}", weapon) + " - Weapon",
                 writeRow, writeCol++);
-            WriteAt(String.Format("{0,5}", trap) + " - Trap",
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            WriteAt(String.Format("{0,5}", trap) + " - Unactive Trap",
                 writeRow, writeCol++);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            WriteAt(String.Format("{0,5}", trap) + " - Active Trap",
+                writeRow, writeCol++);
+
+            Console.ResetColor();
             WriteAt(String.Format("{0,5}", map) + " - Map",
                 writeRow, writeCol++);
         }
@@ -178,9 +221,9 @@ namespace Roguelike {
                 TransformSurroundingInfo(surr.Item1));
             Console.WriteLine("* SOUTH : " +
                 TransformSurroundingInfo(surr.Item2));
-            Console.WriteLine("* WEST  : " + 
+            Console.WriteLine("* WEST  : " +
                 TransformSurroundingInfo(surr.Item3));
-            Console.WriteLine("* EAST  : " + 
+            Console.WriteLine("* EAST  : " +
                 TransformSurroundingInfo(surr.Item4));
             Console.WriteLine("* HERE  : " +
                 TransformSurroundingInfo(surr.Item5));
@@ -208,9 +251,35 @@ namespace Roguelike {
             }
             Console.WriteLine("\n");
             for (int i = 0; i < lst.Count; i++) {
-                Console.WriteLine("" + i + ". " +lst[i].ToString());
+                Console.WriteLine("" + i + ". " + lst[i].ToString());
             }
             Console.WriteLine("" + lst.Count + ". Go Back");
+            Console.Write("\n> ");
+        }
+
+        public void ShowInformation(FileParser parser) {
+            Console.Clear();
+            Console.WriteLine(String.Format("{0,-20}", "Food") +
+                String.Format("{0,-15}", "HPIncrease") + "Weight");
+            Console.WriteLine("-----------------------------------------");
+
+            Console.WriteLine("\n");
+            Console.WriteLine(String.Format("{0,-19}", "Weapon") +
+                String.Format("{0,-16}", "AttackPower") +
+                String.Format("{0,-10}", "Weight") + "Durability");
+            Console.WriteLine("-----------------------------------------" +
+                "--------------");
+
+            Console.WriteLine("\n");
+            Console.WriteLine(String.Format("{0,-21}", "Trap") + "MaxDamage");
+            Console.WriteLine("------------------------------");
+            foreach (Trap trp in parser.listOfTraps) {
+                Console.Write(trp.Name);
+                for (int i = 0; i < 27 - trp.Name.Length; i++) {
+                    Console.Write(" ");
+                }
+                Console.WriteLine(String.Format("{0:00}", trp.MaxDamage));
+            }
         }
 
         private string TransformSurroundingInfo(List<Object> lst) {

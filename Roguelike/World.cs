@@ -33,15 +33,15 @@ namespace Roguelike {
             return new Tuple<int, int>(player.X, player.Y);
         }
 
-        public void RevealLevel(Map map) {
+        public void RevealLevel(Map map, Player player) {
             for (int row = 0; row < X; row++) {
                 for (int column = 0; column < Y; column++) {
                     WorldArray[row, column].IsVisible = true;
                 }
             }
 
-            WorldArray[map.Position[0], map.Position[1]].Remove(map);
-            WorldArray[map.Position[0], map.Position[1]].FillEmpty();
+            WorldArray[player.X, player.Y].Remove(map);
+            WorldArray[player.X, player.Y].FillEmpty();
         }
 
         public void UpdateExploredPlaces(Player player) {

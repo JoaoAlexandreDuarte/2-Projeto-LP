@@ -1,0 +1,22 @@
+[
+    {
+        "Name": "Hell Pit",
+        "MaxDamage": -10
+    },
+    {
+        "Name": "Sharp Spikes",
+        "MaxDamage": -15
+    },
+    {
+        "Name": "Banana Peel",
+        "MaxDamage": -3
+    },
+    {
+        "Name": "Bear Trap",
+        "MaxDamage": -8
+    },
+    {
+        "Name": "Bottomless Chasm",
+        "MaxDamage": -30
+    }
+]
