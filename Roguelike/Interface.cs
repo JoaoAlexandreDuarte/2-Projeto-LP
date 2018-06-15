@@ -24,6 +24,43 @@ namespace Roguelike {
             Console.Clear();
         }
 
+        public void ShowHighScores(FileParser parser) {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(String.Format("{0,7}", "THE"));
+            Console.Write(String.Format("{0,4}", parser.listHighScores.Count));
+            Console.Write(String.Format("{0,7}", "BEST"));
+            Console.Write(String.Format("{0,12}", "PLAYERS\n\n"));
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(String.Format("{0,7}", "RANK"));
+            Console.Write(String.Format("{0,11}", "SCORE"));
+            Console.Write(String.Format("{0,12}", "NAME\n\n"));
+            for (int i = 0; i < parser.listHighScores.Count; i++) {
+                string str;
+
+                if ((i + 2) % 2 == 0) {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                } else {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                }
+
+                if (i == 0) {
+                    str = "1ST";
+                } else if (i == 1) {
+                    str = "2ND";
+                } else if (i == 2) {
+                    str = "3RD";
+                } else {
+                    str = "" + (i + 1) + "TH";
+                }
+                Console.Write(String.Format("{0,7}", str));
+                Console.Write(String.Format("{0,11}",
+                    parser.listHighScores[i].Score));
+                Console.Write(String.Format("{0,11}",
+                    parser.listHighScores[i].Name.ToUpper() +"\n\n"));
+            }
+            Console.ResetColor();
+        }
+
         public void AskOption() {
             Console.WriteLine("What do you want to do?");
         }
@@ -56,6 +93,26 @@ namespace Roguelike {
                 Console.WriteLine("\u25cf " + names[i, 0] + "\n");
                 Console.WriteLine("\t\u25cb " + names[i, 1] + "\n\n");
             }
+        }
+
+        public void ShowDeath(int level) {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n\n\n\nYou died on level " + level + "!");
+            Console.ResetColor();
+        }
+
+        public void Success(int level) {
+            Console.Clear();
+            Console.WriteLine("Congratulations! You reached level " + level +
+                " and are part of the 10 highest high scores!");
+            Console.WriteLine("\nWhat's your name?\n");
+        }
+
+        public void Failure(int level) {
+            Console.Clear();
+            Console.WriteLine("Too bad! You reached level " + level +
+                " but are not eligible to take part in the 10 highest scores.");
+            Console.WriteLine("\nBetter luck next time!");
         }
 
         public void ShowWorld(World world, Player player, int level) {
@@ -229,13 +286,18 @@ namespace Roguelike {
                 TransformSurroundingInfo(surr.Item5));
         }
 
-        public void ShowOptions() {
+        public void ShowOptions(List<ConsoleKey> options) {
 
             Console.WriteLine("\n\nOptions");
             Console.WriteLine("-------");
-            Console.WriteLine("(W) Move NORTH  (A) Move WEST    (S) Move SOUTH (D) Move EAST");
-            Console.WriteLine("(F) Attack NPC  (E) Pick up item (U) Use item   (V) Drop item");
-            Console.WriteLine("(I) Information (Q) Quit game");
+            Console.WriteLine("(" + options[1] + ") Move NORTH  (" +
+                options[3] + ") Move WEST    (" + options[2] + ") Move SOUTH" +
+                " (" + options[4] + ") Move EAST");
+            Console.WriteLine("(" + options[5] + ") Attack NPC  (" +
+                options[6] + ") Pick up item (" + options[7] + ") Use item  " +
+                " (" + options[8] + ") Drop item");
+            Console.WriteLine("(" + options[9] + ") Information (" + options[0]
+                + ") Quit game");
 
             Console.Write("\n> ");
 
@@ -293,7 +355,11 @@ namespace Roguelike {
                         if (obj.ToString() == "0") {
                             returnString = "Exit";
                         } else {
-                            returnString += obj.ToString();
+                            if (returnString == "") {
+                                returnString += obj.ToString();
+                            } else {
+                                returnString += ", " + obj.ToString();
+                            }
                         }
                     }
                 }

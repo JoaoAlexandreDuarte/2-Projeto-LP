@@ -14,12 +14,12 @@ namespace Roguelike {
         public readonly Dictionary<ConsoleKey, Command> keyBinds =
             new Dictionary<ConsoleKey, Command>();
 
-        public void Update() {
+        public void Update(FileParser p) {
             world = new World();
             visualization = new Interface();
             levelGen = new LevelGenerator();
             player = new Player();
-            parser = new FileParser();
+            parser = p;
             messages = new List<string>();
             Tuple<int, int> playerPos;
             Tuple<int, int> exitPos;
@@ -30,9 +30,8 @@ namespace Roguelike {
             bool quit = false;
             bool action;
             ConsoleKeyInfo option;
+            HighScore hS;
             short itemNum;
-
-            parser.ReadFromFiles();
 
             if (keyBinds.Count == 0) {
                 AddKeys();
@@ -64,7 +63,13 @@ namespace Roguelike {
                     }
 
                     foreach (IDealsDamage obj in tileDmg) {
-                        obj.OnDetectingPlayer(player);
+                        if (!(obj as Trap).FallenInto) {
+                            obj.OnDetectingPlayer(player);
+                        }
+                    }
+
+                    if (player.HP <= 0) {
+                        break;
                     }
 
                     visualization.ShowWorld(world, player, level);
@@ -73,7 +78,8 @@ namespace Roguelike {
                     visualization.ShowMessages(world);
                     visualization.ShowSurrounds
                         (world.GetSurroundingInfo(player));
-                    visualization.ShowOptions();
+                    visualization.ShowOptions(new
+                        List<ConsoleKey>(keyBinds.Keys));
 
                     messages.Clear();
 
@@ -173,17 +179,40 @@ namespace Roguelike {
             } while ((player.HP > 0) && (!quit));
 
             if (!quit) {
-
                 visualization.ShowWorld(world, player, level);
                 visualization.ShowStats(world, player);
                 visualization.ShowLegend(world);
-            } else {
-                //todo
-                Console.WriteLine("Left on level " + level);
+
+                visualization.ShowDeath(level);
             }
 
+            if (CheckHighScore(level)) {
+                visualization.Success(level);
+                hS = new HighScore(Console.ReadLine(), level);
+                parser.UpdateHighScores(hS);
+            } else {
+                visualization.Failure(level);
+                Console.ReadKey();
+            }
+        }
 
-            Console.ReadKey();
+        private bool CheckHighScore(int level) {
+            bool isHighScore = false;
+
+            if ((parser.listHighScores == null)) {
+                isHighScore = true;
+            } else if (parser.listHighScores.Count < 10) {
+                isHighScore = true;
+            } else {
+                foreach (HighScore hS in parser.listHighScores) {
+                    if (level > hS.Score) {
+                        isHighScore = true;
+                        break;
+                    }
+                }
+            }
+
+            return isHighScore;
         }
 
         private void AddKeys() {

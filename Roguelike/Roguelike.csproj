@@ -48,6 +48,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="FileParser.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="HighScore.cs" />
     <Compile Include="IDealsDamage.cs" />
     <Compile Include="IHasHP.cs" />
     <Compile Include="IHasWeight.cs" />
@@ -67,15 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Objects\foods.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Objects\traps.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Objects\weapons.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Data\foods.json" />
+    <None Include="Data\highscores.json" />
+    <None Include="Data\traps.json" />
+    <None Include="Data\weapons.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

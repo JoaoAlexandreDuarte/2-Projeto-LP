@@ -50,8 +50,8 @@ namespace Roguelike {
                 tempNum = rnd.Next(parser.listOfTraps.Count);
 
                 rndTrap = parser.listOfTraps[tempNum];
-
-                world.WorldArray[tempRow, tempCol].AddTo(rndTrap);
+                Trap finalTrap = new Trap(rndTrap.Name, rndTrap.MaxDamage);
+                world.WorldArray[tempRow, tempCol].AddTo(finalTrap);
             }
 
             // Player

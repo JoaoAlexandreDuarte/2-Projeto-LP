@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     public class Menu {
+        Interface visualization;
+        GameManager game;
+        FileParser parser;
         readonly string[,] developers = new string[,] {
             { "Inês Gonçalves", "a21702076" },
             { "Inês Nunes", "a21702520"},
@@ -14,8 +17,11 @@ namespace Roguelike {
         public void Options() {
             bool end = false, isError = false;
             short option;
-            Interface visualization = new Interface();
-            GameManager game = new GameManager();
+            visualization = new Interface();
+            game = new GameManager();
+            parser = new FileParser();
+
+            parser.ReadFromFiles();
 
             do {
                 if (!isError) {
@@ -33,10 +39,12 @@ namespace Roguelike {
                 switch (option) {
                     case 1:
                         Console.Clear();
-                        game.Update();
+                        game.Update(parser);
                         break;
                     case 2:
-                        // todo high scores
+                        visualization.ClearScreen();
+                        visualization.ShowHighScores(parser);
+                        Console.ReadKey();
                         break;
                     case 3:
                         visualization.ClearScreen();
