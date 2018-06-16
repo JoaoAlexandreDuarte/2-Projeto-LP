@@ -192,7 +192,11 @@ namespace Roguelike {
 
             if (CheckHighScore(level)) {
                 visualization.Success(level);
-                hS = new HighScore(Console.ReadLine(), level);
+                string name = Console.ReadLine();
+                if ( name.Length > 3 ) {
+                    name.Substring(0, 3);
+                }
+                hS = new HighScore(name, level);
                 parser.UpdateHighScores(hS);
             } else {
                 visualization.Failure(level);
