@@ -21,8 +21,8 @@ namespace Roguelike {
 
             FallenInto = true;
             dmg = Rnd.NextDouble() * Math.Abs(MaxDamage);
-            gm.messages.Add("You fell in a TRAP and lost " + $"{dmg:f2}" +
-                " HP");
+            gm.messages.Add("You fell in a TRAP (" + Name + ") and lost "
+                + $"{dmg:f1}" + " HP");
             gm.player.LoseHP(dmg);
         }
 

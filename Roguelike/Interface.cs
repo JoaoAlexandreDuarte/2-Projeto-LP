@@ -136,14 +136,13 @@ namespace Roguelike {
                             if (world.WorldArray[row, column].IsExit) {
                                 Console.ForegroundColor = ConsoleColor.White;
                                 WriteAt(exit, writeRow, writeCol);
-                                Console.ResetColor();
                             } else if (lst[i] == null) {
                                 WriteAt(empty, writeRow + i, writeCol);
                             } else if (lst[i] is Player) {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 WriteAt(playerIcon, writeRow + i, writeCol);
-                                Console.ResetColor();
                             } else if (lst[i] is Map) {
+                                Console.ForegroundColor = ConsoleColor.Blue;
                                 WriteAt(map, writeRow + i, writeCol);
                             } else if (lst[i] is Trap) {
                                 if (!(lst[i] as Trap).FallenInto) {
@@ -154,17 +153,17 @@ namespace Roguelike {
                                         ConsoleColor.DarkCyan;
                                 }
                                 WriteAt(trap, writeRow + i, writeCol);
-                                Console.ResetColor();
                             }
+                            Console.ResetColor();
                         }
                         for (int i = lst.Count / 2; i < lst.Count; i++) {
                             if (world.WorldArray[row, column].IsExit) {
                                 Console.ForegroundColor = ConsoleColor.White;
                                 WriteAt(exit, writeRow, writeCol + 1);
-                                Console.ResetColor();
                             } else if (lst[i] == null) {
                                 WriteAt(empty, writeRow++, writeCol + 1);
                             } else if (lst[i] is Map) {
+                                Console.ForegroundColor = ConsoleColor.Blue;
                                 WriteAt(map, writeRow++, writeCol + 1);
                             } else if (lst[i] is Trap) {
                                 if (!(lst[i] as Trap).FallenInto) {
@@ -175,8 +174,8 @@ namespace Roguelike {
                                         ConsoleColor.DarkCyan;
                                 }
                                 WriteAt(trap, writeRow++, writeCol + 1);
-                                Console.ResetColor();
                             }
+                            Console.ResetColor();
                         }
                         writeRow += 1;
                     } else {
@@ -253,10 +252,10 @@ namespace Roguelike {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             WriteAt(String.Format("{0,5}", trap) + " - Active Trap",
                 writeRow, writeCol++);
-
-            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Blue;
             WriteAt(String.Format("{0,5}", map) + " - Map",
                 writeRow, writeCol++);
+            Console.ResetColor();
         }
 
         public void ShowMessages(World world, List<string> lst) {

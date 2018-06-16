@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 
 namespace Roguelike {
-    class Inventory : List<Object> {
+    public class Inventory : List<IItem> {
     }
 }

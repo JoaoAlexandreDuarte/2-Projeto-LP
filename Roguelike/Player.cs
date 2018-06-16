@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     public class Player : IHasHP {
-        private readonly float maxHP = 100;
+        public readonly float maxHP = 100;
         public float MaxWeight { get; } = 100;
         public double HP { get; set; }
         public Object SelectedWeapon { get; set; }
-        public Object Inventory { get; set; }
+        public Inventory Inventory { get; }
         public float Weight { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
 
         public Player() {
             HP = maxHP;
+            Inventory = new Inventory();
         }
 
         public double LoseHP(double damage) {

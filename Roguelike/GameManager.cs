@@ -36,7 +36,6 @@ namespace Roguelike {
             if (keyBinds.Count == 0) {
                 AddKeys();
             }
-
             messages.Add("Welcome to the game!");
 
             do {
