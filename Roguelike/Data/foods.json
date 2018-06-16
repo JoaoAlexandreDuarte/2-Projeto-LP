@@ -1,22 +1,27 @@
 [
     {
-        "Name": "Hell Pit",
-        "MaxDamage": -10
+        "Name": "Apple",
+        "HPIncrease": 4,
+		"Weight": 0.5
     },
     {
-        "Name": "Sharp Spikes",
-        "MaxDamage": -15
+        "Name": "Eggs",
+        "HPIncrease": 5,
+		"Weight": 0.6
     },
     {
-        "Name": "Banana Peel",
-        "MaxDamage": -3
+        "Name": "Fish",
+        "HPIncrease": 10,
+		"Weight": 1.0
     },
     {
-        "Name": "Bear Trap",
-        "MaxDamage": -8
+        "Name": "Meat",
+        "HPIncrease": 10,
+		"Weight": 1.2
     },
     {
-        "Name": "Bottomless Chasm",
-        "MaxDamage": -30
+        "Name": "Water",
+        "HPIncrease": 2,
+		"Weight": 0.8
     }
 ]

@@ -15,6 +15,8 @@ namespace Roguelike {
             int tempRow, tempCol;
             double maxNum;
             Trap rndTrap;
+            Food rndFood;
+            Weapon rndWeapon;
             int tempNum;
             Map map;
 
@@ -26,6 +28,15 @@ namespace Roguelike {
             rowExit = rnd.Next(world.X);
 
             world.WorldArray[rowExit, world.Y - 1].IsExit = true;
+
+            // Player
+            rowPlayer = rnd.Next(world.X);
+            world.WorldArray[rowPlayer, 0].AddTo(player);
+            world.WorldArray[rowPlayer, 0].IsVisible = true;
+            player.X = rowPlayer;
+            player.Y = 0;
+
+            world.UpdateExploredPlaces(player);
 
             // Map
             do {
@@ -45,23 +56,60 @@ namespace Roguelike {
                 do {
                     tempRow = rnd.Next(world.X);
                     tempCol = rnd.Next(world.Y);
-                } while ((tempRow == rowExit) && (tempCol == world.Y - 1));
+                } while (((tempRow == rowExit) && (tempCol == world.Y - 1)) ||
+                ((tempRow == rowPlayer) && (tempCol == 0)));
 
                 tempNum = rnd.Next(parser.listOfTraps.Count);
 
                 rndTrap = parser.listOfTraps[tempNum];
                 Trap finalTrap = new Trap(rndTrap.Name, rndTrap.MaxDamage);
-                world.WorldArray[tempRow, tempCol].AddTo(finalTrap);
+                if (!world.WorldArray[tempRow, tempCol].AddTo(finalTrap)) {
+                    i--;
+                }
             }
 
-            // Player
-            rowPlayer = rnd.Next(world.X);
-            world.WorldArray[rowPlayer, 0].AddTo(player);
-            world.WorldArray[rowPlayer, 0].IsVisible = true;
-            player.X = rowPlayer;
-            player.Y = 0;
+            // Food
+            maxNum = Logistic(level, world.X * world.Y,
+                ((world.X * world.Y + world.TileSize) / 2) -
+                (world.TileSize / 2), -0.05);
 
-            world.UpdateExploredPlaces(player);
+            for (int i = 0; i < maxNum; i++) {
+                do {
+                    tempRow = rnd.Next(world.X);
+                    tempCol = rnd.Next(world.Y);
+                } while ((tempRow == rowExit) && (tempCol == world.Y - 1));
+
+                tempNum = rnd.Next(parser.listOfFoods.Count);
+
+                rndFood = parser.listOfFoods[tempNum];
+                Food finalFood = new Food(rndFood.Name, rndFood.HPIncrease,
+                    rndFood.Weight);
+                if (!world.WorldArray[tempRow, tempCol].AddTo(finalFood)) {
+                    i--;
+                }
+            }
+
+            // Weapon
+            maxNum = Logistic(level, world.X * world.Y,
+                ((world.X * world.Y + world.TileSize) / 2) -
+                (world.TileSize / 2), -0.05);
+
+            for (int i = 0; i < maxNum; i++) {
+                do {
+                    tempRow = rnd.Next(world.X);
+                    tempCol = rnd.Next(world.Y);
+                } while ((tempRow == rowExit) && (tempCol == world.Y - 1));
+
+                tempNum = rnd.Next(parser.listOfWeapons.Count);
+
+                rndWeapon = parser.listOfWeapons[tempNum];
+                Weapon finalWeapon = new Weapon(rndWeapon.Name,
+                    rndWeapon.AttackPower, rndWeapon.Weight,
+                    rndWeapon.Durability);
+                if (!world.WorldArray[tempRow, tempCol].AddTo(rndWeapon)) {
+                    i--;
+                }
+            }
 
             return new Tuple<int, int>(rowExit, 7);
         }

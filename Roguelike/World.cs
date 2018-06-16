@@ -23,7 +23,7 @@ namespace Roguelike {
         public Tuple<int, int> UpdatePlayer(Tuple<int, int> playerPos,
             Player player) {
 
-
+            WorldArray[playerPos.Item1, playerPos.Item2].HasPlayer = false;
             WorldArray[playerPos.Item1, playerPos.Item2].Remove(player);
             WorldArray[player.X, player.Y].AddTo(player);
             WorldArray[playerPos.Item1, playerPos.Item2].FillEmpty();

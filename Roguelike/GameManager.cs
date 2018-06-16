@@ -26,6 +26,7 @@ namespace Roguelike {
             List<Object> currentTile;
             List<IDealsDamage> tileDmg;
             List<IItem> tileItems;
+            List<IItem> inventoryItems;
             int level = 1;
             bool quit = false;
             bool action;
@@ -69,6 +70,8 @@ namespace Roguelike {
                         }
                     }
 
+                    inventoryItems = player.Inventory.GetInfo().ToList();
+
                     if (player.HP <= 0) {
                         break;
                     }
@@ -108,6 +111,9 @@ namespace Roguelike {
                                         world.UpdatePlayer(playerPos, player);
                                     action = true;
                                     messages.Add("You moved NORTH");
+                                } else {
+                                    messages.Add("You tried to move NORTH." +
+                                        " But you hit a wall instead");
                                 }
                                 break;
                             case Command.MoveSouth:
@@ -116,6 +122,9 @@ namespace Roguelike {
                                         world.UpdatePlayer(playerPos, player);
                                     action = true;
                                     messages.Add("You moved SOUTH");
+                                } else {
+                                    messages.Add("You tried to move SOUTH." +
+                                        "  But you hit a wall instead");
                                 }
                                 break;
                             case Command.MoveWest:
@@ -124,6 +133,9 @@ namespace Roguelike {
                                         world.UpdatePlayer(playerPos, player);
                                     action = true;
                                     messages.Add("You moved WEST");
+                                } else {
+                                    messages.Add("You tried to move WEST." +
+                                        "  But you hit a wall instead");
                                 }
                                 break;
                             case Command.MoveEast:
@@ -132,6 +144,9 @@ namespace Roguelike {
                                         world.UpdatePlayer(playerPos, player);
                                     action = true;
                                     messages.Add("You moved EAST");
+                                } else {
+                                    messages.Add("You tried to move EAST." +
+                                        "  But you hit a wall instead");
                                 }
                                 break;
                             case Command.AttackNPC:
@@ -141,8 +156,8 @@ namespace Roguelike {
                                     do {
                                         visualization.ShowItems(tileItems,
                                         "Pick Up");
-                                        short.TryParse(Console.ReadLine(),
-                                           out itemNum);
+                                        short.TryParse(
+                                            Console.ReadLine(), out itemNum);
                                     } while ((itemNum < 0) ||
                                     (itemNum > tileItems.Count));
 
@@ -150,11 +165,31 @@ namespace Roguelike {
                                         tileItems[itemNum].OnPickUp(this);
                                         action = true;
                                     }
+                                } else {
+                                    messages.Add("You tried to PICK UP an " +
+                                        "item. It was not possible");
                                 }
                                 break;
                             case Command.UseItem:
                                 break;
                             case Command.DropItem:
+                                if (inventoryItems.Count > 0) {
+                                    do {
+                                        visualization.ShowItems(inventoryItems,
+                                        "Drop");
+                                        short.TryParse(
+                                            Console.ReadLine(),  out itemNum);
+                                    } while ((itemNum < 0) ||
+                                    (itemNum > inventoryItems.Count));
+
+                                    if (itemNum != inventoryItems.Count) {
+                                        inventoryItems[itemNum].OnDrop(this);
+                                        action = true;
+                                    }
+                                } else {
+                                    messages.Add("You tried to DROP an " +
+                                        "item. It was not possible");
+                                }
                                 break;
                             case Command.Information:
                                 visualization.ShowInformation(parser);
@@ -170,7 +205,7 @@ namespace Roguelike {
                             keyBinds.Select(k => k.ToString()).ToArray();
 
                         Console.WriteLine();
-                        visualization.WrongOption(option.Key.ToString(), keys);
+                        visualization.WrongOption(option.Key.ToString());
                         Console.ReadKey();
                     }
                 } while ((!playerPos.Equals(exitPos)) && (!quit)
@@ -193,7 +228,7 @@ namespace Roguelike {
             if (CheckHighScore(level)) {
                 visualization.Success(level);
                 string name = Console.ReadLine();
-                if ( name.Length > 3 ) {
+                if (name.Length > 3) {
                     name.Substring(0, 3);
                 }
                 hS = new HighScore(name, level);

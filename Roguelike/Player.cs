@@ -5,13 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Roguelike {
-    public class Player : IHasHP {
-        public readonly float maxHP = 100;
-        public float MaxWeight { get; } = 100;
+    public class Player : IHasHP, IHasWeight {
+        public readonly double maxHP = 100;
+        public readonly double maxWeight = 100;
         public double HP { get; set; }
-        public Object SelectedWeapon { get; set; }
+        public Weapon SelectedWeapon { get; set; }
         public Inventory Inventory { get; }
-        public float Weight { get; set; }
+        public double Weight {
+            get {
+                double weapongWeight = (SelectedWeapon == null) ? 0 :
+                    SelectedWeapon.Weight;
+
+                return Inventory.Weight + weapongWeight;
+            }
+        }
         public int X { get; set; }
         public int Y { get; set; }
 
@@ -29,7 +36,7 @@ namespace Roguelike {
         public bool MoveNorth() {
             bool canMove = false;
 
-            if ((X - 1) >= 0 ) {
+            if ((X - 1) >= 0) {
                 X -= 1;
                 canMove = true;
             }
@@ -40,7 +47,7 @@ namespace Roguelike {
         public bool MoveSouth(int worldX) {
             bool canMove = false;
 
-            if ((X + 1) < worldX ) {
+            if ((X + 1) < worldX) {
                 X += 1;
                 canMove = true;
             }
@@ -68,10 +75,6 @@ namespace Roguelike {
             }
 
             return canMove;
-        }
-
-        public override string ToString() {
-            return "Player";
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿namespace Roguelike {
     public class Map : IItem {
 
+        // This item doesn't have weight
+        public double Weight { get; }
+
         public void OnPickUp(GameManager gm) {
             gm.messages.Add("You revealed the entire level!");
             gm.world.RevealLevel(this, gm.player);

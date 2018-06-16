@@ -6,14 +6,26 @@ namespace Roguelike {
     public class FileParser {
         public List<Trap> listOfTraps;
         public List<HighScore> listHighScores;
+        public List<Weapon> listOfWeapons;
+        public List<Food> listOfFoods;
 
         public void ReadFromFiles() {
-            string jsonTraps = ReadFile("../../Data/traps.json");
+            string jsonTraps, jsonScores, jsonWeapons, jsonFoods;
+
+            jsonTraps = ReadFile("../../Data/traps.json");
             listOfTraps = JsonConvert.DeserializeObject<List<Trap>>(jsonTraps);
 
-            string jsonScores = ReadFile("../../Data/highscores.json");
+            jsonScores = ReadFile("../../Data/highscores.json");
             listHighScores =
                 JsonConvert.DeserializeObject<List<HighScore>>(jsonScores);
+
+            jsonWeapons = ReadFile("../../Data/weapons.json");
+            listOfWeapons = 
+                JsonConvert.DeserializeObject<List<Weapon>>(jsonWeapons);
+
+            jsonFoods = ReadFile("../../Data/foods.json");
+            listOfFoods =
+                JsonConvert.DeserializeObject<List<Food>>(jsonFoods);
 
             if (listHighScores == null) {
                 listHighScores = new List<HighScore>();

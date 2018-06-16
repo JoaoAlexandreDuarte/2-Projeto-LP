@@ -9,6 +9,7 @@ namespace Roguelike {
 
         public bool IsVisible { get; set; }
         public bool IsExit { get; set; }
+        public bool HasPlayer { get; set; }
         private int TileSize { get; }
 
         public Tile(int tileSize) : base(new Object[tileSize]) {
@@ -27,16 +28,16 @@ namespace Roguelike {
             bool returnValue = false;
             int spaceToAdd;
 
-            if (IsExit) {
-                spaceToAdd = 1;
-            } else if (obj is Player) {
+            if (obj is Player) {
                 spaceToAdd = 0;
+                HasPlayer = true;
             } else {
                 spaceToAdd = LastSpaceFilled();
             }
 
             if (spaceToAdd >= 0) {
-                if ((spaceToAdd == TileSize - 1) && !(obj is Player)) {
+                if ((spaceToAdd == TileSize - 1) && !(obj is Player) || 
+                    ((spaceToAdd == TileSize - 1) && !(HasPlayer))) {
 
                 } else {
                     this.Insert(spaceToAdd, obj);
@@ -46,6 +47,11 @@ namespace Roguelike {
             }
 
             return returnValue;
+        }
+
+        public void RemoveHere(Object obj) {
+            this.Remove(obj);
+            FillEmpty();
         }
 
         public void FillEmpty() {

@@ -1,22 +1,44 @@
 [
     {
-        "Name": "Hell Pit",
-        "MaxDamage": -10
+        "Name": "Shiny Sword",
+        "AttackPower": 10,
+		"Weight": 3,
+		"Durability": 0.90
     },
     {
-        "Name": "Sharp Spikes",
-        "MaxDamage": -15
+        "Name": "Rusty Sword",
+        "AttackPower": 10,
+		"Weight": 3,
+		"Durability": 0.60
     },
     {
-        "Name": "Banana Peel",
-        "MaxDamage": -3
+        "Name": "Shiny Dagger",
+        "AttackPower": 5,
+		"Weight": 1,
+		"Durability": 0.95
     },
     {
-        "Name": "Bear Trap",
-        "MaxDamage": -8
+        "Name": "Cursed Dagger",
+        "AttackPower": 12,
+		"Weight": 1,
+		"Durability": 0.20
     },
     {
-        "Name": "Bottomless Chasm",
-        "MaxDamage": -30
+        "Name": "Power Axe",
+        "AttackPower": 18,
+		"Weight": 8,
+		"Durability": 0.92
+    },
+	{
+        "Name": "Heavy Mace",
+        "AttackPower": 16,
+		"Weight": 7,
+		"Durability": 0.96
+    },
+	{
+        "Name": "Chainsaw",
+        "AttackPower": 40,
+		"Weight": 20,
+		"Durability": 0.5
     }
 ]

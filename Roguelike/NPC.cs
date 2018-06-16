@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     class NPC : IDealsDamage, IHasHP {
-        private readonly float maxNumber = 100;
-
         private Random Rnd = new Random();
+
+        public const float maxNumber = 100;
 
         public double HP { get; set; }
 

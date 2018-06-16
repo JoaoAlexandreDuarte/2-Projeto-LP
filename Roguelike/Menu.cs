@@ -21,11 +21,10 @@ namespace Roguelike {
             game = new GameManager();
             parser = new FileParser();
 
-            parser.ReadFromFiles();
-
             do {
                 if (!isError) {
                     visualization.ClearScreen();
+                    parser.ReadFromFiles();
                 } else {
                     Console.WriteLine();
                 }
@@ -57,13 +56,12 @@ namespace Roguelike {
                     default:
                         visualization.ClearScreen();
                         isError = true;
-                        visualization.WrongOption(option.ToString(),
-                            new string[] { "1", "2", "3", "4" });
+                        visualization.WrongOption(option.ToString());
                         break;
                 }
 
             } while (end == false);
-            
+
             visualization.Bye();
             return;
         }
