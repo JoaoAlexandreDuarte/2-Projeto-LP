@@ -167,10 +167,29 @@ namespace Roguelike {
                                     }
                                 } else {
                                     messages.Add("You tried to PICK UP an " +
-                                        "item. It was not possible");
+                                        "item but there are no items " +
+                                        "available to be picked up");
                                 }
                                 break;
                             case Command.UseItem:
+                                if (inventoryItems.Count > 0) {
+                                    do {
+                                        visualization.ShowItems(inventoryItems,
+                                        "Use");
+                                        short.TryParse(
+                                            Console.ReadLine(), out itemNum);
+                                    } while ((itemNum < 0) ||
+                                    (itemNum > inventoryItems.Count));
+
+                                    if (itemNum != inventoryItems.Count) {
+                                        inventoryItems[itemNum].OnUse(this);
+                                        action = true;
+                                    }
+                                } else {
+                                    messages.Add("You tried to USE an " +
+                                        "item but you currently don't have" +
+                                        " any items in the inventory");
+                                }
                                 break;
                             case Command.DropItem:
                                 if (inventoryItems.Count > 0) {
@@ -178,7 +197,7 @@ namespace Roguelike {
                                         visualization.ShowItems(inventoryItems,
                                         "Drop");
                                         short.TryParse(
-                                            Console.ReadLine(),  out itemNum);
+                                            Console.ReadLine(), out itemNum);
                                     } while ((itemNum < 0) ||
                                     (itemNum > inventoryItems.Count));
 
@@ -188,7 +207,8 @@ namespace Roguelike {
                                     }
                                 } else {
                                     messages.Add("You tried to DROP an " +
-                                        "item. It was not possible");
+                                        "item but you currently don't have" +
+                                        " any items in the inventory");
                                 }
                                 break;
                             case Command.Information:
@@ -229,7 +249,7 @@ namespace Roguelike {
                 visualization.Success(level);
                 string name = Console.ReadLine();
                 if (name.Length > 3) {
-                    name.Substring(0, 3);
+                    name = name.Substring(0, 3);
                 }
                 hS = new HighScore(name, level);
                 parser.UpdateHighScores(hS);

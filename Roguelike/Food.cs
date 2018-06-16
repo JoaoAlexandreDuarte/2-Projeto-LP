@@ -42,7 +42,15 @@ namespace Roguelike {
         }
 
         public void OnUse(GameManager gm) {
-            throw new NotImplementedException();
+            if (gm.player.HP == 100) {
+                gm.messages.Add("You tried to eat a food (" + Name + ") " +
+                    "but you are already full health");
+            } else {
+                gm.player.GainHP(HPIncrease);
+                gm.player.Inventory.Remove(this);
+                gm.messages.Add("You ate food (" + Name + ") " +
+                    "and feel better now");
+            }
         }
 
         public override string ToString() {

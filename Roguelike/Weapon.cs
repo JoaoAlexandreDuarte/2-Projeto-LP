@@ -45,7 +45,18 @@ namespace Roguelike {
         }
 
         public void OnUse(GameManager gm) {
-            throw new NotImplementedException();
+            Weapon temp;
+
+            if (gm.player.SelectedWeapon != null) {
+                temp = gm.player.SelectedWeapon;
+                gm.messages.Add("You put the previous weapon (" + temp.Name +
+                ") in the inventory");
+                gm.player.Inventory.Add(temp);
+            }
+
+            gm.player.SelectedWeapon = this;
+            gm.player.Inventory.Remove(this);
+            gm.messages.Add("You equipped a new weapon (" + Name + ")");
         }
 
         public override string ToString() {

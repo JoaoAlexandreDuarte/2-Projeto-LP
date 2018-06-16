@@ -27,10 +27,20 @@ namespace Roguelike {
             Inventory = new Inventory();
         }
 
-        public double LoseHP(double damage) {
+        public void LoseHP(double damage) {
             HP -= damage;
 
-            return HP;
+            if (HP < 0) {
+                HP = 0;
+            }
+        }
+
+        public void GainHP(double life) {
+            HP += life;
+
+            if (HP > 100) {
+                HP = 100;
+            }
         }
 
         public bool MoveNorth() {
