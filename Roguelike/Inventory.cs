@@ -8,7 +8,7 @@ namespace Roguelike {
                 double weight = 0;
 
                 foreach (IItem item in this) {
-                    weight = item.Weight;
+                    weight += item.Weight;
                 }
 
                 return weight;
