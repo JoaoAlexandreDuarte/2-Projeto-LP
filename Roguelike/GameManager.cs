@@ -37,6 +37,8 @@ namespace Roguelike {
                 AddKeys();
             }
 
+            messages.Add("Welcome to the game!");
+
             do {
 
                 exitPos = levelGen.GenerateLevel(world, player, level, parser);
@@ -64,7 +66,7 @@ namespace Roguelike {
 
                     foreach (IDealsDamage obj in tileDmg) {
                         if (!(obj as Trap).FallenInto) {
-                            obj.OnDetectingPlayer(player);
+                            obj.OnDetectingPlayer(this);
                         }
                     }
 
@@ -75,7 +77,7 @@ namespace Roguelike {
                     visualization.ShowWorld(world, player, level);
                     visualization.ShowStats(world, player);
                     visualization.ShowLegend(world);
-                    visualization.ShowMessages(world);
+                    visualization.ShowMessages(world, messages);
                     visualization.ShowSurrounds
                         (world.GetSurroundingInfo(player));
                     visualization.ShowOptions(new
@@ -106,6 +108,7 @@ namespace Roguelike {
                                     playerPos =
                                         world.UpdatePlayer(playerPos, player);
                                     action = true;
+                                    messages.Add("You moved NORTH");
                                 }
                                 break;
                             case Command.MoveSouth:
@@ -113,6 +116,7 @@ namespace Roguelike {
                                     playerPos =
                                         world.UpdatePlayer(playerPos, player);
                                     action = true;
+                                    messages.Add("You moved SOUTH");
                                 }
                                 break;
                             case Command.MoveWest:
@@ -120,6 +124,7 @@ namespace Roguelike {
                                     playerPos =
                                         world.UpdatePlayer(playerPos, player);
                                     action = true;
+                                    messages.Add("You moved WEST");
                                 }
                                 break;
                             case Command.MoveEast:
@@ -127,6 +132,7 @@ namespace Roguelike {
                                     playerPos =
                                         world.UpdatePlayer(playerPos, player);
                                     action = true;
+                                    messages.Add("You moved EAST");
                                 }
                                 break;
                             case Command.AttackNPC:
@@ -161,7 +167,6 @@ namespace Roguelike {
                             player.LoseHP(1);
                         }
                     } else {
-
                         string[] keys =
                             keyBinds.Select(k => k.ToString()).ToArray();
 

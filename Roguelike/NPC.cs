@@ -25,8 +25,8 @@ namespace Roguelike {
             HP = maxNumber;
         }
 
-        public void OnDetectingPlayer(Player player) {
-            player.LoseHP(Rnd.NextDouble() * MaxDamage);
+        public void OnDetectingPlayer(GameManager gm) {
+            gm.player.LoseHP(Rnd.NextDouble() * MaxDamage);
         }
 
         public override string ToString() {

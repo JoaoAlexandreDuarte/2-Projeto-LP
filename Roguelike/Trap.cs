@@ -16,9 +16,14 @@ namespace Roguelike {
             MaxDamage = dmg;
         }
 
-        public void OnDetectingPlayer(Player player) {
+        public void OnDetectingPlayer(GameManager gm) {
+            double dmg;
+
             FallenInto = true;
-            player.LoseHP(Rnd.NextDouble() * Math.Abs(MaxDamage));
+            dmg = Rnd.NextDouble() * Math.Abs(MaxDamage);
+            gm.messages.Add("You fell in a TRAP and lost " + $"{dmg:f2}" +
+                " HP");
+            gm.player.LoseHP(dmg);
         }
 
         public override string ToString() {

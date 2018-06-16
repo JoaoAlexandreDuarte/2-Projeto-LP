@@ -56,7 +56,7 @@ namespace Roguelike {
                 Console.Write(String.Format("{0,11}",
                     parser.listHighScores[i].Score));
                 Console.Write(String.Format("{0,11}",
-                    parser.listHighScores[i].Name.ToUpper() +"\n\n"));
+                    parser.listHighScores[i].Name.ToUpper() + "\n\n"));
             }
             Console.ResetColor();
         }
@@ -259,15 +259,21 @@ namespace Roguelike {
                 writeRow, writeCol++);
         }
 
-        public void ShowMessages(World world) {
+        public void ShowMessages(World world, List<string> lst) {
             int writeRow = 0, writeCol;
 
             writeCol = (world.X * 3) + 2;
 
             WriteAt("Messages", writeRow, writeCol++);
-            WriteAt("--------", writeRow, writeCol++);
-
-            Console.SetCursorPosition(writeRow, writeCol += 2);
+            Console.WriteLine("\n--------");
+            if (lst.Count == 0) {
+                Console.WriteLine("* You did nothing");
+            } else {
+                foreach (string str in lst) {
+                    Console.WriteLine("* " + str);
+                }
+            }
+            Console.WriteLine("\n");
         }
 
         public void ShowSurrounds(Tuple<List<Object>,

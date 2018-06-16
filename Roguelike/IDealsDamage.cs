@@ -2,6 +2,6 @@
     public interface IDealsDamage {
         double MaxDamage { get; set; }
 
-        void OnDetectingPlayer(Player player);
+        void OnDetectingPlayer(GameManager gm);
     }
 }
