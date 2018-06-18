@@ -212,6 +212,8 @@ namespace Roguelike {
                                 }
                                 break;
                             case Command.Information:
+                                messages.Add("You sought more info in the " +
+                                    "elder scrolls");
                                 visualization.ShowInformation(parser);
                                 Console.ReadKey();
                                 break;
@@ -221,9 +223,6 @@ namespace Roguelike {
                             player.LoseHP(1);
                         }
                     } else {
-                        string[] keys =
-                            keyBinds.Select(k => k.ToString()).ToArray();
-
                         Console.WriteLine();
                         visualization.WrongOption(option.Key.ToString());
                         Console.ReadKey();
