@@ -65,8 +65,15 @@ namespace Roguelike {
                     }
 
                     foreach (IDealsDamage obj in tileDmg) {
-                        if (!(obj as Trap).FallenInto) {
-                            obj.OnDetectingPlayer(this);
+                        if (obj is Trap) {
+                            if (!(obj as Trap).FallenInto) {
+                                obj.OnDetectingPlayer(this);
+                            }
+                        }
+                        if (obj is NPC) {
+                            if ((obj as NPC).Hostile) {
+                                obj.OnDetectingPlayer(this);
+                            }
                         }
                     }
 

@@ -18,6 +18,8 @@ namespace Roguelike {
             Food rndFood;
             Weapon rndWeapon;
             int tempNum;
+            double hp, attackPower;
+            bool state;
             Map map;
 
             if (level > 1) {
@@ -111,7 +113,35 @@ namespace Roguelike {
                 }
             }
 
-            return new Tuple<int, int>(rowExit, 7);
+            // NPC
+            maxNum = Logistic(level, world.X * world.Y + world.TileSize,
+                ((world.X * world.Y + world.TileSize) / 2) -
+                (world.TileSize / 2), 0.07);
+
+            for (int i = 0; i < maxNum; i++) {
+                do {
+                    tempRow = rnd.Next(world.X);
+                    tempCol = rnd.Next(world.Y);
+                } while ((tempRow == rowExit) && (tempCol == world.Y - 1) ||
+                ((tempRow == rowPlayer) && (tempCol == 0)));
+
+                hp = Logistic(level, world.X * world.Y + world.TileSize,
+                ((world.X * world.Y + world.TileSize) / 2) -
+                (world.TileSize / 2), 0.07);
+
+                attackPower = Logistic(level, world.X * world.Y +
+                    world.TileSize, ((world.X * world.Y + world.TileSize) / 2)
+                    - (world.TileSize / 2), 0.07);
+
+                state = rnd.NextDouble() < 0.5 ? true : false;
+
+                NPC npc = new NPC(hp, attackPower, state);
+                if (!world.WorldArray[tempRow, tempCol].AddTo(npc)) {
+                    i--;
+                }
+            }
+
+            return new Tuple<int, int>(rowExit, world.Y - 1);
         }
 
         private void CleanLevel(World world) {

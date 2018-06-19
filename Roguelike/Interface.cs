@@ -153,6 +153,16 @@ namespace Roguelike {
                                 Console.ForegroundColor =
                                     ConsoleColor.DarkGreen;
                                 WriteAt(weapon, writeRow + i, writeCol);
+                            } else if (lst[i] is NPC) {
+                                if ((lst[i] as NPC).Hostile) {
+                                    Console.ForegroundColor =
+                                        ConsoleColor.Red;
+                                    WriteAt(hostile, writeRow + i, writeCol);
+                                } else {
+                                    Console.ForegroundColor =
+                                        ConsoleColor.Cyan;
+                                    WriteAt(neutral, writeRow + i, writeCol);
+                                }
                             }
                             Console.ResetColor();
                         }
@@ -181,6 +191,16 @@ namespace Roguelike {
                                 Console.ForegroundColor =
                                     ConsoleColor.DarkGreen;
                                 WriteAt(weapon, writeRow++, writeCol + 1);
+                            } else if (lst[i] is NPC) {
+                                if ((lst[i] as NPC).Hostile) {
+                                    Console.ForegroundColor =
+                                        ConsoleColor.Red;
+                                    WriteAt(hostile, writeRow++, writeCol + 1);
+                                } else {
+                                    Console.ForegroundColor =
+                                        ConsoleColor.Cyan;
+                                    WriteAt(neutral, writeRow++, writeCol + 1);
+                                }
                             }
                             Console.ResetColor();
                         }

@@ -12,25 +12,28 @@ namespace Roguelike {
 
         public double HP { get; set; }
 
-        public string Name { get; set; }
-
         public bool Hostile { get; set; }
 
         public double MaxDamage { get; set; }
 
-        public NPC(string name, double dmg, bool hostile) {
-            Name = name;
+        public NPC(double hp, double dmg, bool hostile) {
+            HP = hp;
             Hostile = hostile;
             MaxDamage = dmg;
-            HP = maxNumber;
         }
 
         public void OnDetectingPlayer(GameManager gm) {
-            gm.player.LoseHP(Rnd.NextDouble() * MaxDamage);
+            double dmg;
+            
+            dmg = Rnd.NextDouble() * Math.Abs(MaxDamage);
+            gm.messages.Add("You were attacked by an NPC and lost "
+                + $"{dmg:f1}" + " HP");
+            gm.player.LoseHP(dmg);
         }
 
         public override string ToString() {
-            return "NPC (" + (Hostile ? "Hostile" : "Neutral") + ", HP";
+            return "NPC (" + (Hostile ? "Hostile" : "Neutral") + ", HP= " + 
+                $"{HP:f1}" + ", AP= " + $"{MaxDamage:f1}" + ")";
         }
     }
 }
