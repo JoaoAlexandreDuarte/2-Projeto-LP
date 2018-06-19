@@ -135,7 +135,8 @@ namespace Roguelike {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 WriteAt(playerIcon, writeRow + i, writeCol);
                             } else if (lst[i] is Map) {
-                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                Console.ForegroundColor =
+                                    ConsoleColor.DarkYellow;
                                 WriteAt(map, writeRow + i, writeCol);
                             } else if (lst[i] is Trap) {
                                 if (!(lst[i] as Trap).FallenInto) {
@@ -150,8 +151,7 @@ namespace Roguelike {
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 WriteAt(food, writeRow + i, writeCol);
                             } else if (lst[i] is Weapon) {
-                                Console.ForegroundColor =
-                                    ConsoleColor.DarkGreen;
+                                Console.ForegroundColor = ConsoleColor.Magenta;
                                 WriteAt(weapon, writeRow + i, writeCol);
                             } else if (lst[i] is NPC) {
                                 if ((lst[i] as NPC).Hostile) {
@@ -173,7 +173,8 @@ namespace Roguelike {
                             } else if (lst[i] == null) {
                                 WriteAt(empty, writeRow++, writeCol + 1);
                             } else if (lst[i] is Map) {
-                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                Console.ForegroundColor =
+                                    ConsoleColor.DarkYellow;
                                 WriteAt(map, writeRow++, writeCol + 1);
                             } else if (lst[i] is Trap) {
                                 if (!(lst[i] as Trap).FallenInto) {
@@ -188,8 +189,7 @@ namespace Roguelike {
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 WriteAt(food, writeRow++, writeCol + 1);
                             } else if (lst[i] is Weapon) {
-                                Console.ForegroundColor =
-                                    ConsoleColor.DarkGreen;
+                                Console.ForegroundColor = ConsoleColor.Magenta;
                                 WriteAt(weapon, writeRow++, writeCol + 1);
                             } else if (lst[i] is NPC) {
                                 if ((lst[i] as NPC).Hostile) {
@@ -277,7 +277,7 @@ namespace Roguelike {
             Console.ForegroundColor = ConsoleColor.Green;
             WriteAt(String.Format("{0,5}", food) + " - Food",
                 writeRow, writeCol++);
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.Magenta;
             WriteAt(String.Format("{0,5}", weapon) + " - Weapon",
                 writeRow, writeCol++);
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -286,7 +286,7 @@ namespace Roguelike {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             WriteAt(String.Format("{0,5}", trap) + " - Active Trap",
                 writeRow, writeCol++);
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteAt(String.Format("{0,5}", map) + " - Map",
                 writeRow, writeCol++);
             Console.ResetColor();
