@@ -29,11 +29,8 @@ namespace Roguelike {
         }
 
         public void OnPickUp(GameManager gm) {
-            double weight = (gm.player.SelectedWeapon == null) ? 0 :
-                gm.player.SelectedWeapon.Weight;
 
-            if (weight + gm.player.Inventory.Weight <=
-                gm.player.maxWeight) {
+            if (gm.player.Weight <= gm.player.maxWeight) {
                 gm.messages.Add("You picked up a weapon (" + Name + ") and " +
                     "put it in the inventory");
                 gm.player.Inventory.Add(this);

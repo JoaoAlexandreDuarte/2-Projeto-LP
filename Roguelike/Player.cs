@@ -13,10 +13,10 @@ namespace Roguelike {
         public Inventory Inventory { get; }
         public double Weight {
             get {
-                double weapongWeight = (SelectedWeapon == null) ? 0 :
+                double weaponWeight = (SelectedWeapon == null) ? 0 :
                     SelectedWeapon.Weight;
 
-                return Inventory.Weight + weapongWeight;
+                return Inventory.Weight + weaponWeight;
             }
         }
         public int X { get; set; }
