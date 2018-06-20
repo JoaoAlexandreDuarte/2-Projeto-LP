@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     class NPC : IDealsDamage, IHasHP {
-        private Random Rnd = new Random();
+        private Random Rnd = new Random(Guid.NewGuid().GetHashCode());
 
         public const float maxNumber = 100;
 

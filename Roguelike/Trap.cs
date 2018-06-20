@@ -2,7 +2,7 @@
 
 namespace Roguelike {
     public class Trap : IDealsDamage {
-        private Random Rnd = new Random();
+        private Random Rnd = new Random(Guid.NewGuid().GetHashCode());
 
         public string Name { get; set; }
 

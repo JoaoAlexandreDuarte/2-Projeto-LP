@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     public class LevelGenerator {
-        private Random rnd = new Random();
+        private Random rnd = new Random(Guid.NewGuid().GetHashCode());
 
         public Tuple<int, int> GenerateLevel(World world, Player player,
             int level, FileParser parser) {
