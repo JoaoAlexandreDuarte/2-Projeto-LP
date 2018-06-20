@@ -126,13 +126,11 @@ namespace Roguelike {
                 } while ((tempRow == rowExit) && (tempCol == world.Y - 1) ||
                 ((tempRow == rowPlayer) && (tempCol == 0)));
 
-                hp = Logistic(level, world.X * world.Y + world.TileSize,
-                ((world.X * world.Y + world.TileSize) / 2) -
-                (world.TileSize / 2), 0.07);
+                hp = rnd.NextDouble() *
+                    Logistic(level, NPC.maxNumber, NPC.maxNumber / 2, 0.07);
 
-                attackPower = Logistic(level, world.X * world.Y +
-                    world.TileSize, ((world.X * world.Y + world.TileSize) / 2)
-                    - (world.TileSize / 2), 0.07);
+                attackPower = rnd.NextDouble() *
+                    Logistic(level, NPC.maxNumber, NPC.maxNumber / 2, 0.07);
 
                 state = rnd.NextDouble() < 0.5 ? true : false;
 
