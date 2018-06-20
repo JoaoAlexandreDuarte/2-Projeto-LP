@@ -12,6 +12,8 @@ namespace Roguelike {
         public void ReadFromFiles() {
             string jsonTraps, jsonScores, jsonWeapons, jsonFoods;
 
+            //Will read from the json files the corresponding file
+            // and then convert them to .NET types
             jsonTraps = ReadFile("../../Data/traps.json");
             listOfTraps = JsonConvert.DeserializeObject<List<Trap>>(jsonTraps);
 
@@ -27,21 +29,27 @@ namespace Roguelike {
             listOfFoods =
                 JsonConvert.DeserializeObject<List<Food>>(jsonFoods);
 
+            // If the highscore list is null, it'll create a new one
             if (listHighScores == null) {
                 listHighScores = new List<HighScore>();
             }
         }
 
+        // Will add a highscore to the list and sort between the already
+        // existing ones
         public void UpdateHighScores(HighScore hS) {
 
             listHighScores.Add(hS);
 
             listHighScores.Sort((y, x) => x.Score.CompareTo(y.Score));
 
+            // If the list is bigger than 10, it'll remove the scores
+            // after the 10th
             if (listHighScores.Count > 10) {
                 listHighScores.RemoveAt(10);
             }
 
+            // Will update the file
             WriteToFile();
         }
 
