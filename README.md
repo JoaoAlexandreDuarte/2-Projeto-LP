@@ -37,6 +37,19 @@ So, they worked on the formal part of the work (report, UML, Fluxogram and comme
 
 ### Architecture
 
+The program was divided and organized using _classes_ and _enumerations_ for
+easier understanding, and to ensure the code looks cleaner.
+
+At launching, the game will show a menu screen, with four options.
+When the player starts a new game, a level will be created using a
+Random _class_.
+The number of NPCs, Traps, Food and Weapons will be spawned according
+to the Logistic method.
+The method receives four parameters:
+	x: the variable that defines the resulting value
+	L: the maximum value of the curve
+	x0: the value corresponding to the middle of the function's curve
+	k: if the curves varies too quickly or not.
 
 
 ### UML Diagram
