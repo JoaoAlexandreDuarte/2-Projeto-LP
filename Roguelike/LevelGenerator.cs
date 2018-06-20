@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     public class LevelGenerator {
+        // https://stackoverflow.com/questions/1785744/how-do-i-seed-a-random-class-to-avoid-getting-duplicate-random-values
         private Random rnd = new Random(Guid.NewGuid().GetHashCode());
 
         public Tuple<int, int> GenerateLevel(World world, Player player,
