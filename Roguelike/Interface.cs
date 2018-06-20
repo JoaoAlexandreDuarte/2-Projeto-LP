@@ -241,7 +241,8 @@ namespace Roguelike {
                 String.Format("{0:0.0}", player.HP), writeRow, writeCol++);
             Console.ResetColor();
             weaponName = (player.SelectedWeapon == null) ? "None" :
-                player.SelectedWeapon.Name;
+                player.SelectedWeapon.Name + " (" + 
+                player.SelectedWeapon.AttackPower + ")";
             WriteAt(String.Format("{0,-10}", "Weapon") + "- " + weaponName,
                 writeRow, writeCol++);
             WriteAt(String.Format("{0,-10}", "Inventory") + "- " +
@@ -351,6 +352,17 @@ namespace Roguelike {
                 Console.Write("-");
             }
             Console.WriteLine("\n");
+            for (int i = 0; i < lst.Count; i++) {
+                Console.WriteLine("" + i + ". " + lst[i].ToString());
+            }
+            Console.WriteLine("" + lst.Count + ". Go Back");
+            Console.Write("\n> ");
+        }
+
+        public void ShowNPCsToAttack(List<NPC> lst) {
+            Console.Clear();
+            Console.WriteLine("Select NPC to  attack");
+            Console.Write("---------------------\n");
             for (int i = 0; i < lst.Count; i++) {
                 Console.WriteLine("" + i + ". " + lst[i].ToString());
             }

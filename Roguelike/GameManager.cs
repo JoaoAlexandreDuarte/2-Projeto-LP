@@ -25,6 +25,7 @@ namespace Roguelike {
             Tuple<int, int> exitPos;
             List<Object> currentTile;
             List<IDealsDamage> tileDmg;
+            List<NPC> tileNPC;
             List<IItem> tileItems;
             List<IItem> inventoryItems;
             int level = 1;
@@ -32,7 +33,7 @@ namespace Roguelike {
             bool action;
             ConsoleKeyInfo option;
             HighScore hS;
-            short itemNum;
+            short itemNum, npcNum;
 
             if (keyBinds.Count == 0) {
                 AddKeys();
@@ -51,6 +52,7 @@ namespace Roguelike {
                     action = false;
                     tileItems = new List<IItem>();
                     tileDmg = new List<IDealsDamage>();
+                    tileNPC = new List<NPC>();
 
                     currentTile = world.WorldArray[player.X, player.Y].
                         GetInfo().ToList();
@@ -71,7 +73,8 @@ namespace Roguelike {
                             }
                         }
                         if (obj is NPC) {
-                            if ((obj as NPC).Hostile) {
+                            tileNPC.Add(obj as NPC);
+                            if (((obj as NPC).Hostile)) {
                                 obj.OnDetectingPlayer(this);
                             }
                         }
@@ -157,6 +160,33 @@ namespace Roguelike {
                                 }
                                 break;
                             case Command.AttackNPC:
+                                if ((tileNPC.Count > 0)) {
+                                    if (player.SelectedWeapon != null) {
+                                        do {
+                                            visualization.ShowNPCsToAttack(
+                                                tileNPC);
+                                            short.TryParse(
+                                                Console.ReadLine(),
+                                                out npcNum);
+                                        } while ((npcNum < 0) ||
+                                    (npcNum > tileItems.Count));
+
+                                        if (npcNum != tileItems.Count) {
+                                            player.AttackNPC(this,
+                                                tileNPC[npcNum]);
+                                            action = true;
+                                        }
+
+                                    } else {
+                                        messages.Add("You tried to attack an" +
+                                            " NPC but you don't have a " +
+                                            "weapon equipped");
+                                    }
+                                } else {
+                                    messages.Add("You tried to attack an NPC" +
+                                        " but there are no NPC in the " +
+                                        "current tile");
+                                }
                                 break;
                             case Command.PickUpItem:
                                 if (tileItems.Count > 0) {
