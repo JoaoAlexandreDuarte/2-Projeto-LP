@@ -86,15 +86,21 @@ namespace Roguelike {
                         break;
                     }
 
+                    // Will show the world, player and current level
                     visualization.ShowWorld(world, player, level);
+                    // Will show the stats
                     visualization.ShowStats(world, player);
+                    // Will show the information of the world
                     visualization.ShowLegend(world);
+                    // Will show the messages of the player's actions
                     visualization.ShowMessages(world, messages);
+                    // Will show the player's surroundings
                     visualization.ShowSurrounds
                         (world.GetSurroundingInfo(player));
                     visualization.ShowOptions(new
                         List<ConsoleKey>(keyBinds.Keys));
 
+                    // Will clear all information once the player moves
                     messages.Clear();
 
                     // Update our input for everything else to use
@@ -256,6 +262,7 @@ namespace Roguelike {
                                 break;
                         }
 
+                        // When the player moves, they will lose 1 HP
                         if (action) {
                             player.LoseHP(1);
                         }
@@ -295,11 +302,14 @@ namespace Roguelike {
             }
         }
 
+        // Initializes isHighScore as false
         private bool CheckHighScore(int level) {
             bool isHighScore = false;
 
+            // If there's no highscore list, it'll change to true
             if ((parser.listHighScores == null)) {
                 isHighScore = true;
+                // If the highscore list is below 10, it'll also change to true
             } else if (parser.listHighScores.Count < 10) {
                 isHighScore = true;
             } else {
@@ -311,6 +321,7 @@ namespace Roguelike {
                 }
             }
 
+            // Will show the updated highscore
             return isHighScore;
         }
 

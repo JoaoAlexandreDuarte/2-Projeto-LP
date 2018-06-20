@@ -1,6 +1,9 @@
 ﻿using System;
 
 namespace Roguelike {
+    /// <summary>
+    /// Command numbers
+    /// </summary>
     [Flags]
     public enum Command {
         None = 0,
