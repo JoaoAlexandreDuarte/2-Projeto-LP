@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Roguelike {
     public class Player : IHasHP, IHasWeight {
+        private Random Rnd = new Random(Guid.NewGuid().GetHashCode());
         public readonly double maxHP = 100;
         public readonly double maxWeight = 100;
         public double HP { get; set; }
@@ -85,6 +86,19 @@ namespace Roguelike {
             }
 
             return canMove;
+        }
+
+        public void AttackNPC(GameManager gm, NPC npc) {
+            double dmg;
+
+            dmg = Rnd.NextDouble() * SelectedWeapon.AttackPower;
+            npc.TakeDamage(gm, dmg);
+
+            if (Rnd.NextDouble() < 1 - SelectedWeapon.Durability) {
+                SelectedWeapon = null;
+                gm.messages.Add("The weapon you were using " +
+                    SelectedWeapon.ToString() + " just broke");
+            }
         }
     }
 }

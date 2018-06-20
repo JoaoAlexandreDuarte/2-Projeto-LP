@@ -294,8 +294,8 @@ namespace Roguelike {
             Console.ResetColor();
             // Will see if the player has a weapon
             weaponName = (player.SelectedWeapon == null) ? "None" :
-                player.SelectedWeapon.Name;
-            // Will show the weapon's name
+                player.SelectedWeapon.Name + " (" + 
+                player.SelectedWeapon.AttackPower + ")";
             WriteAt(String.Format("{0,-10}", "Weapon") + "- " + weaponName,
                 writeRow, writeCol++);
             // Will show the percentage of the weight the player currently
@@ -431,8 +431,18 @@ namespace Roguelike {
             Console.WriteLine("" + lst.Count + ". Go Back");
             Console.Write("\n> ");
         }
+      
+        public void ShowNPCsToAttack(List<NPC> lst) {
+            Console.Clear();
+            Console.WriteLine("Select NPC to  attack");
+            Console.Write("---------------------\n");
+            for (int i = 0; i < lst.Count; i++) {
+                Console.WriteLine("" + i + ". " + lst[i].ToString());
+            }
+            Console.WriteLine("" + lst.Count + ". Go Back");
+            Console.Write("\n> ");
+        }
 
-        // Renders the information about the food
         public void ShowInformation(FileParser parser) {
             Console.Clear();
             Console.WriteLine(String.Format("{0,-20}", "Food") +
